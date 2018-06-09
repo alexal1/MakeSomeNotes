@@ -5,10 +5,9 @@
  */
 
 import React, { PureComponent } from "react";
-import { Dimensions, Text, StyleSheet, View } from 'react-native'
+import { Text, StyleSheet, View } from 'react-native'
 import PropTypes from 'prop-types'
-
-const { width: viewportWidth, height: viewportHeight } = Dimensions.get('window');
+import Globals from "../globals"
 
 export default class Card extends PureComponent {
     render() {
@@ -24,8 +23,8 @@ export default class Card extends PureComponent {
 
 const styles = StyleSheet.create({
     container: {
-        width: viewportWidth,
-        height: viewportHeight,
+        width: Globals.SCREEN_WIDTH,
+        height: Globals.SCREEN_HEIGHT,
         alignItems: 'center',
         justifyContent: 'center'
     },

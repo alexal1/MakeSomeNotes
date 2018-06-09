@@ -5,18 +5,23 @@
  */
 
 import React, { PureComponent } from "react";
-import { FlatList } from "react-native";
 import PropTypes from 'prop-types'
 import CardContainer from "../containers/CardContainer";
+import Carousel from "react-native-snap-carousel";
+import Globals from "../globals"
 
 export default class CardsList extends PureComponent {
     render() {
         return (
-            <FlatList
+            <Carousel
                 data={this.props.titleIds}
                 renderItem={({item}) => <CardContainer id={item}/>}
                 keyExtractor={(item) => item.toString()}
                 horizontal={true}
+                sliderWidth={Globals.SCREEN_WIDTH}
+                itemWidth={Globals.SCREEN_WIDTH}
+                inactiveSlideOpacity={0.8}
+                inactiveSlideScale={0.6}
             />
         )
     }
