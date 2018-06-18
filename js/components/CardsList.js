@@ -14,7 +14,7 @@ export default class CardsList extends PureComponent {
     render() {
         return (
             <Carousel
-                data={this.props.titleIds}
+                data={this.props.todoIds}
                 renderItem={({item}) => <CardContainer id={item}/>}
                 keyExtractor={(item) => item.toString()}
                 horizontal={true}
@@ -28,5 +28,5 @@ export default class CardsList extends PureComponent {
 }
 
 CardsList.propTypes = {
-    titleIds: PropTypes.array.isRequired
+    todoIds: PropTypes.array.isRequired
 };

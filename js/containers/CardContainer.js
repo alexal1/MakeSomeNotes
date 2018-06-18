@@ -7,14 +7,19 @@
 import { connect } from 'react-redux'
 import Card from "../components/Card";
 import PropTypes from 'prop-types'
+import { toggleTodo } from "../actions";
 
 const mapStateToProps = (state, ownProps) => {
+    const todo = state.todoById[ownProps.id];
     return {
-        text: state.titleById[ownProps.id]
+        text: todo.text,
+        isDone: todo.isDone
     }
 };
 
-const mapDispatchToProps = () => ({});
+const mapDispatchToProps = (dispatch, ownProps) => ({
+    onToggle: () => dispatch(toggleTodo(ownProps.id))
+});
 
 const CardContainer = connect(
     mapStateToProps,

@@ -1,5 +1,5 @@
-import titles from './titles'
+import todos from './todos'
 
 // TODO: use combineReducers() here when new reducers will be added.
 
-export default titles
+export default todos
