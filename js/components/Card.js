@@ -5,24 +5,48 @@
  */
 
 import React, { PureComponent } from "react";
-import { Text, StyleSheet, View } from 'react-native'
+import { StyleSheet, View, TextInput, TouchableOpacity } from 'react-native'
 import PropTypes from 'prop-types'
 import Globals from "../globals"
 import CircleCheckBox from "./CircleCheckBox";
 
 export default class Card extends PureComponent {
+
+    makeTextEditable = (isEditable: Boolean) => {
+        let pointerEvents = isEditable ? 'auto' : 'none';
+        this._textInput.setNativeProps({
+            editable: isEditable,
+            pointerEvents: pointerEvents
+        });
+
+        if (isEditable) {
+            this._textInput.focus()
+        }
+    };
+
     render() {
         return (
-            <View style={styles.root}>
+            <View
+                onTouchMove={()=> this._textInput.blur()}
+                style={styles.root}>
                 <View style={styles.containerText}>
-                    <Text style={styles.text}>
-                        {this.props.text}
-                    </Text>
+                    <TouchableOpacity
+                        onLongPress={() => this.makeTextEditable(true)}>
+                        <TextInput
+                            ref={(component) => this._textInput = component}
+                            style={styles.text}
+                            editable={false}
+                            multiline={true}
+                            pointerEvents={'none'}
+                            onBlur={() => this.makeTextEditable(false)}>
+                            {this.props.text}
+                        </TextInput>
+                    </TouchableOpacity>
                 </View>
                 <View style={styles.containerCheckBox}>
                     <CircleCheckBox
                         checked={this.props.isDone}
-                        onToggle={() => this.props.onToggle()}
+                        onToggle={this.props.onToggle}
                         outerSize={32}
                         outerColor={'black'}
                         filterSize={31}
