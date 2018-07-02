@@ -1,6 +1,9 @@
-import { TOGGLE_TODO } from "./constants";
+// @flow
 
-export const toggleTodo = id => ({
-    type: TOGGLE_TODO,
-    id
+import type { ActionEditText } from './constants'
+
+export const editText = (id: number, newText: string): ActionEditText => ({
+    type: "EDIT_TEXT",
+    id,
+    newText
 });

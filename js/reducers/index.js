@@ -1,5 +1,4 @@
-import todos from './todos'
+import items from './items'
+import { combineReducers } from "redux";
 
-// TODO: use combineReducers() here when new reducers will be added.
-
-export default todos
+export default combineReducers({ items })

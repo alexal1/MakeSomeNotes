@@ -9,7 +9,7 @@ import CardsList from "../components/CardsList";
 
 const mapStateToProps = state => {
     return {
-        todoIds: state.todoIds
+        items: Object.values(state.items)
     }
 };
 
