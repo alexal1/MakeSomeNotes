@@ -7,7 +7,7 @@
 import React, { PureComponent } from "react";
 import { StyleSheet, View, TextInput, TouchableOpacity } from 'react-native'
 import Globals from "../globals"
-import type { ItemText } from "../reducers/items";
+import { ItemText } from "../reducers/items";
 
 type Props = {
     itemText: ItemText,
