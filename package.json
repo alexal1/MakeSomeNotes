@@ -10,7 +10,6 @@
     "babel-cli": "^6.26.0",
     "babel-preset-flow": "^6.23.0",
     "flow-bin": "^0.75.0",
-    "prop-types": "15.6.1",
     "react": "^16.4.0",
     "react-native": "0.55.4",
     "react-native-iphone-x-helper": "^1.0.3",
