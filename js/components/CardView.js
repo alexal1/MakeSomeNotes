@@ -6,15 +6,15 @@
 
 import React, { PureComponent } from "react";
 import { StyleSheet, View, TextInput, TouchableOpacity } from 'react-native'
-import PropTypes from 'prop-types'
 import Globals from "../globals"
+import type { ItemText } from "../reducers/items";
 
 type Props = {
-    text: string,
-    save: (newText: string) => {}
+    itemText: ItemText,
+    save: (itemTextId: number, newText: string) => {}
 }
 
-export default class Card extends PureComponent<Props> {
+export default class CardView extends PureComponent<Props> {
 
     _textInput: TextInput;
 
@@ -43,9 +43,9 @@ export default class Card extends PureComponent<Props> {
                         editable={false}
                         multiline={true}
                         pointerEvents={'none'}
-                        onChangeText={(text) => this.props.save(text)}
+                        onChangeText={(text) => this.props.save(this.props.itemText.id, text)}
                         onBlur={() => this.makeTextEditable(false)}>
-                        {this.props.text}
+                        {this.props.itemText.text}
                     </TextInput>
                 </TouchableOpacity>
             </View>
@@ -68,8 +68,3 @@ const styles = StyleSheet.create({
         paddingRight: 16
     }
 });
-
-Card.propTypes = {
-    text: PropTypes.string.isRequired,
-    save: PropTypes.func.isRequired
-};

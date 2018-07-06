@@ -11,6 +11,10 @@ export type ItemTextAction = {
 export type ItemAction =
     | ItemTextAction;
 
+export type CardAction = {
+    type: string
+}
+
 export function editText(id: number, newText: string): ItemTextAction {
     return {
         type: EDIT_TEXT,

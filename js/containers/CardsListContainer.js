@@ -7,9 +7,10 @@
 import { connect } from 'react-redux'
 import CardsList from "../components/CardsList";
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
+    const cardIds: number[] = Object.keys(state.cards);
     return {
-        items: Object.values(state.items)
+        cardIds: cardIds
     }
 };
 
