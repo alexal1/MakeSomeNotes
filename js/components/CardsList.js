@@ -17,7 +17,8 @@ type CarouselItem = {
 }
 
 type Props = {
-    cardIds: number[]
+    cardIds: number[],
+    createCard: () => void
 }
 
 export default class CardsList extends PureComponent<Props> {
@@ -47,7 +48,7 @@ export default class CardsList extends PureComponent<Props> {
             }
 
             case this.CAROUSEL_ITEM_PLUS: {
-                return <PlusView createCard={() => console.log("create card")}/>
+                return <PlusView createCard={this.props.createCard}/>
             }
         }
     };

@@ -7,7 +7,7 @@
 import React, { PureComponent } from "react";
 import { StyleSheet, View, TextInput, TouchableOpacity } from 'react-native'
 import Globals from "../globals"
-import { ItemText } from "../reducers/items";
+import type { ItemText } from "../reducers/items";
 
 type Props = {
     itemText: ItemText,
@@ -44,7 +44,8 @@ export default class CardView extends PureComponent<Props> {
                         multiline={true}
                         pointerEvents={'none'}
                         onChangeText={(text) => this.props.save(this.props.itemText.id, text)}
-                        onBlur={() => this.makeTextEditable(false)}>
+                        onBlur={() => this.makeTextEditable(false)}
+                        placeholder={"Some note..."}>
                         {this.props.itemText.text}
                     </TextInput>
                 </TouchableOpacity>

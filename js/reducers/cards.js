@@ -1,38 +1,25 @@
 // @flow
 
-import { ItemText } from "./items"
-import type { CardAction } from "../actions";
+import { ITEM_TEXT } from "./items";
 
 type CardStackItem = {
     itemType: string,
     itemId: number
 }
 
-export class Card {
-    id: number;
-    stack: [CardStackItem];
-
-    constructor(id: number, stack: [CardStackItem]) {
-        this.id = id;
-        this.stack = stack;
-    }
+export type Card = {
+    id: number,
+    stack: [CardStackItem]
 }
 
 export type CardsState = {
     [cardId: string]: Card
 }
 
-const initialState: CardsState = {
-    "0": new Card(0, [{itemType: ItemText.name, itemId: 0}]),
-    "1": new Card(1, [{itemType: ItemText.name, itemId: 1}]),
-    "2": new Card(2, [{itemType: ItemText.name, itemId: 2}]),
-    "3": new Card(3, [{itemType: ItemText.name, itemId: 3}]),
-    "4": new Card(4, [{itemType: ItemText.name, itemId: 4}]),
+export const cardsInitialState: CardsState = {
+    "0": {id: 0, stack: [{itemType: ITEM_TEXT, itemId: 0}]},
+    "1": {id: 1, stack: [{itemType: ITEM_TEXT, itemId: 1}]},
+    "2": {id: 2, stack: [{itemType: ITEM_TEXT, itemId: 2}]},
+    "3": {id: 3, stack: [{itemType: ITEM_TEXT, itemId: 3}]},
+    "4": {id: 4, stack: [{itemType: ITEM_TEXT, itemId: 4}]},
 };
-
-export default function cards(state: CardsState = initialState, action: CardAction): CardsState {
-    switch (action.type) {
-        default:
-            return state;
-    }
-}

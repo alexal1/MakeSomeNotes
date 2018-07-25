@@ -1,24 +1,45 @@
 // @flow
 
-import { EDIT_TEXT } from "./actionTypes";
+import { CREATE_CARD, EDIT_TEXT } from "./actionTypes";
 
-export type ItemTextAction = {
+// Items actions
+
+export type ItemTextEditAction = {
     type: string,
     id: number,
-    newText?: string
+    newText: string
 }
 
 export type ItemAction =
-    | ItemTextAction;
+    | ItemTextEditAction;
 
-export type CardAction = {
+// Cards actions
+
+export type CardCreateAction = {
     type: string
 }
 
-export function editText(id: number, newText: string): ItemTextAction {
+export type CardAction =
+    | CardCreateAction;
+
+// Union action
+
+export type Action =
+    | ItemAction
+    | CardAction;
+
+// Action creators
+
+export function editText(id: number, newText: string): ItemTextEditAction {
     return {
         type: EDIT_TEXT,
         id,
         newText
+    }
+}
+
+export function createCard(): CardCreateAction {
+    return {
+        type: CREATE_CARD
     }
 }

@@ -6,14 +6,14 @@
 
 import { connect } from 'react-redux'
 import { editText } from "../actions";
-import type { ItemsState } from "../reducers/items";
-import { ItemText } from "../reducers/items";
-import { Card } from "../reducers/cards";
 import CardView from "../components/CardView";
+import { ITEM_TEXT } from "../reducers/items";
+import type { Card } from "../reducers/cards";
+import type { ItemsState, ItemText } from "../reducers/items";
 
 function getFirstItemText(card: Card, itemsState: ItemsState): ?ItemText {
     for (let value of card.stack) {
-        if (value.itemType === ItemText.name) {
+        if (value.itemType === ITEM_TEXT) {
             const id: string = value.itemId.toString();
             return itemsState[id]
         }

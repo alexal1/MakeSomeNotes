@@ -9,7 +9,7 @@ import { StyleSheet, View, TouchableOpacity, Text } from 'react-native'
 import Globals from "../globals"
 
 type Props = {
-    createCard: () => any
+    createCard: () => void
 }
 
 export default class PlusView extends PureComponent<Props> {
