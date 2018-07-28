@@ -6,19 +6,20 @@
 
 import React, { Component } from 'react';
 import { Provider } from "react-redux";
-import { createStore } from 'redux'
+import { applyMiddleware, createStore } from 'redux'
 import rootReducer from '../reducers'
 import CardsListContainer from "../containers/CardsListContainer";
 import storage from 'redux-persist/lib/storage'
 import { persistReducer, persistStore } from "redux-persist";
 import { PersistGate } from 'redux-persist/integration/react'
+import { logger } from "redux-logger";
 
 const persistConfig = {
     key: 'root',
     storage,
 };
 const persistedReducer = persistReducer(persistConfig, rootReducer);
-const store = createStore(persistedReducer);
+const store = createStore(persistedReducer, applyMiddleware(logger));
 const persistor = persistStore(store);
 
 type Props = {}
