@@ -6,7 +6,7 @@
 
 import React, { PureComponent } from "react";
 import { StyleSheet, View, TextInput, TouchableOpacity } from 'react-native'
-import Globals from "../globals"
+import Globals, { scale } from "../globals"
 import type { ItemImage, ItemText } from "../reducers/items";
 import ImageView from "./ImageView";
 
@@ -84,18 +84,19 @@ export default class CardView extends PureComponent<Props> {
 const styles = StyleSheet.create({
     root: {
         flex: 1,
-        alignItems: 'center',
         justifyContent: 'center',
+        alignItems: 'stretch',
         marginTop: Globals.STATUS_BAR_HEIGHT()
     },
     image: {
         // TODO: add some style
     },
     text: {
-        fontSize: 24,
-        fontWeight: "900",
-        textAlign: 'center',
-        paddingLeft: 16,
-        paddingRight: 16
+        fontSize: 13,
+        fontWeight: "500",
+        marginLeft: scale(24),
+        marginRight: scale(24),
+        lineHeight: 20,
+        opacity: 0.7
     }
 });

@@ -6,14 +6,14 @@
 
 import React, { PureComponent } from "react";
 import { Image, StyleSheet } from "react-native";
-import Globals from "../globals";
+import Globals, { scale } from "../globals";
 
 type Props = {
     base64: string
 }
 
 export default class ImageView extends PureComponent<Props> {
-    static PADDING = 24;
+    static PADDING = scale(24);
     static obtainImageWidth() {
         return Globals.SCREEN_WIDTH - ImageView.PADDING * 2
     }
