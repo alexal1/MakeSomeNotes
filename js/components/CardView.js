@@ -18,28 +18,35 @@ type Props = {
 
 export default class CardView extends PureComponent<Props> {
 
-    _textInput: TextInput;
+    _textInput: ?TextInput = null;
 
     makeTextEditable = (isEditable: boolean) => {
         let pointerEvents = isEditable ? 'auto' : 'none';
-        this._textInput.setNativeProps({
+        this._textInput && this._textInput.setNativeProps({
             editable: isEditable,
             pointerEvents: pointerEvents
         });
 
         if (isEditable) {
-            this._textInput.focus()
+            this._textInput && this._textInput.focus()
         }
     };
 
-    render() {
-        return (
-            <View
-                onTouchMove={()=> this._textInput.blur()}
-                style={styles.root}>
+    renderImage = () => {
+        if (this.props.itemImage != null)
+            return (
                 <ImageView
                     style={styles.image}
-                    base64={this.props.itemImage != null ? this.props.itemImage.base64 : ""}/>
+                    base64={this.props.itemImage.base64}/>
+            );
+        else
+            return null
+    };
+
+    renderText = () => {
+        if (this.props.itemText != null) {
+            const id = this.props.itemText.id;
+            return (
                 <TouchableOpacity
                     onLongPress={() => this.makeTextEditable(true)}>
                     <TextInput
@@ -48,16 +55,25 @@ export default class CardView extends PureComponent<Props> {
                         editable={false}
                         multiline={true}
                         pointerEvents={'none'}
-                        onChangeText={(text) =>
-                            this.props.itemText != null
-                                ? this.props.save(this.props.itemText.id, text)
-                                : {}
-                        }
+                        onChangeText={(text) => this.props.save(id, text)}
                         onBlur={() => this.makeTextEditable(false)}
                         placeholder={"Some note..."}>
-                        {this.props.itemText != null ? this.props.itemText.text : ""}
+                        {this.props.itemText.text}
                     </TextInput>
                 </TouchableOpacity>
+            );
+        }
+        else
+            return null
+    };
+
+    render() {
+        return (
+            <View
+                onTouchMove={()=> this._textInput && this._textInput.blur()}
+                style={styles.root}>
+                {this.renderImage()}
+                {this.renderText()}
             </View>
         )
     }
