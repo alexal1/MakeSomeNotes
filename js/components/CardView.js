@@ -5,7 +5,7 @@
  */
 
 import React, { PureComponent } from "react";
-import { StyleSheet, View, TextInput, TouchableOpacity, Image } from 'react-native'
+import { StyleSheet, View, TextInput, TouchableOpacity } from 'react-native'
 import Globals from "../globals"
 import type { ItemImage, ItemText } from "../reducers/items";
 import ImageView from "./ImageView";
