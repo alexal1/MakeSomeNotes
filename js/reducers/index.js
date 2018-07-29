@@ -1,10 +1,10 @@
 // @flow
 
 import type { ItemsState, ItemText } from "./items";
-import { ITEM_TEXT, itemsInitialState } from "./items";
+import { ITEM_IMAGE, ITEM_TEXT, itemsInitialState } from "./items";
 import type { CardsState } from "./cards";
 import { cardsInitialState } from "./cards";
-import type { Action, ItemTextEditAction } from "../actions";
+import type { Action, CardCreateAction, ItemTextEditAction } from "../actions";
 
 // Global state
 
@@ -40,7 +40,7 @@ const handlers = {
         }
     },
 
-    CREATE_CARD(state: State): State {
+    CREATE_CARD_WITH_TEXT(state: State): State {
         const itemTextId = Object.keys(state.items).length;
         const cardId = Object.keys(state.cards).length;
         return {
@@ -57,6 +57,28 @@ const handlers = {
                 [cardId.toString()]: {
                     id: cardId,
                     stack: [{itemType: ITEM_TEXT, itemId: itemTextId}]
+                }
+            }
+        }
+    },
+
+    CREATE_CARD_WITH_IMAGE(state: State, action: CardCreateAction): State {
+        const itemImageId = Object.keys(state.items).length;
+        const cardId = Object.keys(state.cards).length;
+        return {
+            ...state,
+            items: {
+                ...state.items,
+                [itemImageId.toString()]: {
+                    id: itemImageId,
+                    base64: action.image
+                }
+            },
+            cards: {
+                ...state.cards,
+                [cardId.toString()]: {
+                    id: cardId,
+                    stack: [{itemType: ITEM_IMAGE, itemId: itemImageId}]
                 }
             }
         }

@@ -18,7 +18,7 @@ type CarouselItem = {
 
 type Props = {
     cardIds: number[],
-    createCard: () => void
+    createCard: (image: ?string) => void
 }
 
 export default class CardsList extends PureComponent<Props> {

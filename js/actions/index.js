@@ -1,6 +1,10 @@
 // @flow
 
-import { CREATE_CARD, EDIT_TEXT } from "./actionTypes";
+import {
+    CREATE_CARD_WITH_IMAGE,
+    CREATE_CARD_WITH_TEXT,
+    EDIT_TEXT
+} from "./actionTypes";
 
 // Items actions
 
@@ -16,7 +20,8 @@ export type ItemAction =
 // Cards actions
 
 export type CardCreateAction = {
-    type: string
+    type: string,
+    image?: string
 }
 
 export type CardAction =
@@ -38,8 +43,14 @@ export function editText(id: number, newText: string): ItemTextEditAction {
     }
 }
 
-export function createCard(): CardCreateAction {
-    return {
-        type: CREATE_CARD
-    }
+export function createCard(image: ?string): CardCreateAction {
+    if (image == null)
+        return {
+            type: CREATE_CARD_WITH_TEXT
+        };
+    else
+        return {
+            type: CREATE_CARD_WITH_IMAGE,
+            image
+        };
 }

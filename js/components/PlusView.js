@@ -9,21 +9,22 @@ import { StyleSheet, View, TouchableOpacity, Text } from 'react-native'
 import { colorBlue, colorLightGrey } from "../resources/colors";
 import Globals from "../globals";
 import { scale } from "../globals"
+import ImageView from "./ImageView";
 
 type Props = {
-    createCard: () => void
+    createCard: (image: ?string) => void
 }
 
 export default class PlusView extends PureComponent<Props> {
 
-    static openImagePicker() {
+    openImagePicker = () => {
         const ImagePicker = require('react-native-image-picker');
         const options = {
             mediaType: 'photo',
             allowsEditing: true,
             quality: 1,
-            maxWidth: Globals.SCREEN_WIDTH,
-            maxHeight: Globals.SCREEN_HEIGHT
+            maxWidth: ImageView.obtainImageWidth(),
+            maxHeight: ImageView.obtainImageWidth()
         };
         ImagePicker.launchImageLibrary(options, (response)  => {
             if (response.didCancel) {
@@ -33,21 +34,21 @@ export default class PlusView extends PureComponent<Props> {
                 console.log('Image picker error: ', response.error);
             }
             else {
-                console.log(response.data)
+                this.props.createCard(response.data)
             }
         });
-    }
+    };
 
     render() {
         return (
             <View style={styles.root}>
                 <View style={styles.belowStatusBar}>
-                    <TouchableOpacity onPress={this.props.createCard}>
+                    <TouchableOpacity onPress={() => this.props.createCard(null)}>
                         <Text style={styles.text}>
                             + Note
                         </Text>
                     </TouchableOpacity>
-                    <TouchableOpacity onPress={PlusView.openImagePicker}>
+                    <TouchableOpacity onPress={this.openImagePicker}>
                         <Text style={styles.text}>
                             + Image
                         </Text>
@@ -71,8 +72,8 @@ const styles = StyleSheet.create({
     },
     text: {
         marginLeft: scale(27),
-        fontSize: scale(43),
+        fontSize: 43,
         color: colorBlue,
-        lineHeight: scale(60)
+        lineHeight: 60
     }
 });

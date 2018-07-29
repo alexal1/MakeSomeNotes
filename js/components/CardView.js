@@ -5,12 +5,14 @@
  */
 
 import React, { PureComponent } from "react";
-import { StyleSheet, View, TextInput, TouchableOpacity } from 'react-native'
+import { StyleSheet, View, TextInput, TouchableOpacity, Image } from 'react-native'
 import Globals from "../globals"
-import type { ItemText } from "../reducers/items";
+import type { ItemImage, ItemText } from "../reducers/items";
+import ImageView from "./ImageView";
 
 type Props = {
-    itemText: ItemText,
+    itemText: ?ItemText,
+    itemImage: ?ItemImage,
     save: (itemTextId: number, newText: string) => {}
 }
 
@@ -35,6 +37,9 @@ export default class CardView extends PureComponent<Props> {
             <View
                 onTouchMove={()=> this._textInput.blur()}
                 style={styles.root}>
+                <ImageView
+                    style={styles.image}
+                    base64={this.props.itemImage != null ? this.props.itemImage.base64 : ""}/>
                 <TouchableOpacity
                     onLongPress={() => this.makeTextEditable(true)}>
                     <TextInput
@@ -43,10 +48,14 @@ export default class CardView extends PureComponent<Props> {
                         editable={false}
                         multiline={true}
                         pointerEvents={'none'}
-                        onChangeText={(text) => this.props.save(this.props.itemText.id, text)}
+                        onChangeText={(text) =>
+                            this.props.itemText != null
+                                ? this.props.save(this.props.itemText.id, text)
+                                : {}
+                        }
                         onBlur={() => this.makeTextEditable(false)}
                         placeholder={"Some note..."}>
-                        {this.props.itemText.text}
+                        {this.props.itemText != null ? this.props.itemText.text : ""}
                     </TextInput>
                 </TouchableOpacity>
             </View>
@@ -60,6 +69,9 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         marginTop: Globals.STATUS_BAR_HEIGHT()
+    },
+    image: {
+        // TODO: add some style
     },
     text: {
         fontSize: 24,

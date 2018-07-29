@@ -1,4 +1,5 @@
 // @flow
 
 export const EDIT_TEXT: string = "EDIT_TEXT";
-export const CREATE_CARD: string = "CREATE_CARD";
+export const CREATE_CARD_WITH_TEXT: string = "CREATE_CARD_WITH_TEXT";
+export const CREATE_CARD_WITH_IMAGE: string = "CREATE_CARD_WITH_IMAGE";

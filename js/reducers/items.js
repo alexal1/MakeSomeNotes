@@ -6,6 +6,12 @@ export type ItemText = {
 }
 export const ITEM_TEXT = "ITEM_TEXT";
 
+export type ItemImage = {
+    id: number,
+    base64: string
+}
+export const ITEM_IMAGE = "ITEM_IMAGE";
+
 export type Item =
     | ItemText;
 
