@@ -57,7 +57,9 @@ export default class CardView extends PureComponent<Props> {
                         pointerEvents={'none'}
                         onChangeText={(text) => this.props.save(id, text)}
                         onBlur={() => this.makeTextEditable(false)}
-                        placeholder={"Some note..."}>
+                        placeholder={"Some note..."}
+                        returnKeyType={"done"}
+                        blurOnSubmit={true}>
                         {this.props.itemText.text}
                     </TextInput>
                 </TouchableOpacity>
