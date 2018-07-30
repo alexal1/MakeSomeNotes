@@ -5,10 +5,12 @@
  */
 
 import React, { PureComponent } from "react";
-import { StyleSheet, View, TextInput, TouchableOpacity } from 'react-native'
+import { StyleSheet, View, TextInput, TouchableOpacity, KeyboardAvoidingView } from 'react-native'
 import Globals, { scale } from "../globals"
 import type { ItemImage, ItemText } from "../reducers/items";
 import ImageView from "./ImageView";
+import CardBottomBar from "./CardBottomBar";
+import CardTopBar from "./CardTopBar";
 
 type Props = {
     itemText: ?ItemText,
@@ -71,12 +73,17 @@ export default class CardView extends PureComponent<Props> {
 
     render() {
         return (
-            <View
+            <KeyboardAvoidingView
+                behavior={"padding"}
                 onTouchMove={()=> this._textInput && this._textInput.blur()}
                 style={styles.root}>
-                {this.renderImage()}
-                {this.renderText()}
-            </View>
+                <CardTopBar/>
+                <View>
+                    {this.renderImage()}
+                    {this.renderText()}
+                </View>
+                <CardBottomBar onEditTextClick={() => this.makeTextEditable(true)}/>
+            </KeyboardAvoidingView>
         )
     }
 }
@@ -84,7 +91,7 @@ export default class CardView extends PureComponent<Props> {
 const styles = StyleSheet.create({
     root: {
         flex: 1,
-        justifyContent: 'center',
+        justifyContent: 'space-between',
         alignItems: 'stretch',
         marginTop: Globals.STATUS_BAR_HEIGHT()
     },
@@ -97,6 +104,6 @@ const styles = StyleSheet.create({
         marginLeft: scale(24),
         marginRight: scale(24),
         lineHeight: 20,
-        opacity: 0.7
+        opacity: 0.9
     }
 });
