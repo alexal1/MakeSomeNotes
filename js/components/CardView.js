@@ -15,14 +15,17 @@ import CardTopBar from "./CardTopBar";
 type Props = {
     itemText: ?ItemText,
     itemImage: ?ItemImage,
+    addItemText: () => void,
     save: (itemTextId: number, newText: string) => {}
 }
 
 export default class CardView extends PureComponent<Props> {
 
     _textInput: ?TextInput = null;
+    _isTextInputEditable = false;
 
     makeTextEditable = (isEditable: boolean) => {
+        this._isTextInputEditable = isEditable;
         let pointerEvents = isEditable ? 'auto' : 'none';
         this._textInput && this._textInput.setNativeProps({
             editable: isEditable,
@@ -82,9 +85,18 @@ export default class CardView extends PureComponent<Props> {
                     {this.renderImage()}
                     {this.renderText()}
                 </View>
-                <CardBottomBar onEditTextClick={() => this.makeTextEditable(true)}/>
+                <CardBottomBar onEditTextClick={() => {
+                    if (this.props.itemText == null) {
+                        this.props.addItemText();
+                    }
+                    this.makeTextEditable(true)
+                }}/>
             </KeyboardAvoidingView>
         )
+    }
+
+    componentDidUpdate() {
+        this.makeTextEditable(this._isTextInputEditable)
     }
 }
 

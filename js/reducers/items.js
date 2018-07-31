@@ -13,7 +13,8 @@ export type ItemImage = {
 export const ITEM_IMAGE = "ITEM_IMAGE";
 
 export type Item =
-    | ItemText;
+    | ItemText
+    | ItemImage;
 
 export type ItemsState = {
     [itemId: string]: Item

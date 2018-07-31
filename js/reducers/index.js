@@ -4,7 +4,7 @@ import type { ItemsState, ItemText } from "./items";
 import { ITEM_IMAGE, ITEM_TEXT, itemsInitialState } from "./items";
 import type { CardsState } from "./cards";
 import { cardsInitialState } from "./cards";
-import type { Action, CardCreateAction, ItemTextEditAction } from "../actions";
+import type { Action, AddItemAction, CardCreateAction, ItemTextEditAction } from "../actions";
 
 // Global state
 
@@ -79,6 +79,36 @@ const handlers = {
                 [cardId.toString()]: {
                     id: cardId,
                     stack: [{itemType: ITEM_IMAGE, itemId: itemImageId}]
+                }
+            }
+        }
+    },
+
+    ADD_ITEM_TO_CARD(state: State, action: AddItemAction): State {
+        const itemId = Object.keys(state.items).length;
+        const cardId = action.cardId;
+        const newStack = [
+            ...state.cards[cardId.toString()].stack.slice(),
+            {
+                itemType: action.itemType,
+                itemId: itemId
+            }
+        ];
+
+        return {
+            ...state,
+            items: {
+                ...state.items,
+                [itemId.toString()]: {
+                    ...action.item,
+                    id: itemId
+                }
+            },
+            cards: {
+                ...state.cards,
+                [cardId.toString()]: {
+                    ...state.cards[cardId.toString()],
+                    stack: newStack
                 }
             }
         }

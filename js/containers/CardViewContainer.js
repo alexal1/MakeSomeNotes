@@ -5,13 +5,13 @@
  */
 
 import { connect } from 'react-redux'
-import { editText } from "../actions";
+import { addItemToCard, editText } from "../actions";
 import CardView from "../components/CardView";
 import { ITEM_IMAGE, ITEM_TEXT } from "../reducers/items";
 import type { Card } from "../reducers/cards";
-import type { ItemsState, ItemText } from "../reducers/items";
+import type { ItemsState, Item } from "../reducers/items";
 
-function getFirstItem(itemType: string, card: Card, itemsState: ItemsState): ?ItemText {
+function getFirstItem(itemType: string, card: Card, itemsState: ItemsState): ?Item {
     for (let value of card.stack) {
         if (value.itemType === itemType) {
             const id: string = value.itemId.toString();
@@ -29,7 +29,15 @@ const mapStateToProps = (state, ownProps) => {
     return {itemText, itemImage}
 };
 
-const mapDispatchToProps = (dispatch) => ({
+const mapDispatchToProps = (dispatch, ownProps) => ({
+    addItemText: () => dispatch(addItemToCard(
+        ITEM_TEXT,
+        {
+            id: -1,
+            text: ""
+        },
+        ownProps.cardId
+    )),
     save: (itemTextId: number, newText: string) => dispatch(editText(itemTextId, newText))
 });
 

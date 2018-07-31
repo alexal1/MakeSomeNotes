@@ -1,12 +1,21 @@
 // @flow
 
 import {
+    ADD_ITEM_TO_CARD,
     CREATE_CARD_WITH_IMAGE,
     CREATE_CARD_WITH_TEXT,
     EDIT_TEXT
 } from "./actionTypes";
+import type { Item } from "../reducers/items";
 
 // Items actions
+
+export type AddItemAction = {
+    type: string,
+    itemType: string,
+    item: Item,
+    cardId: number
+}
 
 export type ItemTextEditAction = {
     type: string,
@@ -15,6 +24,7 @@ export type ItemTextEditAction = {
 }
 
 export type ItemAction =
+    | AddItemAction
     | ItemTextEditAction;
 
 // Cards actions
@@ -53,4 +63,13 @@ export function createCard(image: ?string): CardCreateAction {
             type: CREATE_CARD_WITH_IMAGE,
             image
         };
+}
+
+export function addItemToCard(itemType: string, item: Item, cardId: number): CardCreateAction {
+    return {
+        type: ADD_ITEM_TO_CARD,
+        itemType,
+        item,
+        cardId
+    }
 }
