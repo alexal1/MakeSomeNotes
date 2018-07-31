@@ -6,7 +6,7 @@
 
 import React, { PureComponent } from "react";
 import { StyleSheet, View, TextInput, TouchableOpacity } from 'react-native'
-import Globals, { scale } from "../globals"
+import { scale } from "../globals"
 import type { ItemImage, ItemText } from "../reducers/items";
 import ImageView from "./ImageView";
 import CardBottomBar from "./CardBottomBar";
@@ -80,17 +80,17 @@ export default class CardView extends PureComponent<Props> {
             <KeyboardAwareScrollView
                 onTouchMove={()=> this._textInput && this._textInput.blur()}
                 contentContainerStyle={styles.root}>
-                <CardTopBar/>
-                <View>
-                    {this.renderImage()}
-                    {this.renderText()}
-                </View>
                 <CardBottomBar onEditTextClick={() => {
                     if (this.props.itemText == null) {
                         this.props.addItemText();
                     }
                     this.makeTextEditable(true)
                 }}/>
+                <View>
+                    {this.renderImage()}
+                    {this.renderText()}
+                </View>
+                <CardTopBar/>
             </KeyboardAwareScrollView>
         )
     }
@@ -103,9 +103,9 @@ export default class CardView extends PureComponent<Props> {
 const styles = StyleSheet.create({
     root: {
         flex: 1,
+        flexDirection: 'column-reverse',
         justifyContent: 'space-between',
         alignItems: 'stretch',
-        marginTop: Globals.STATUS_BAR_HEIGHT()
     },
     image: {
         // TODO: add some style
