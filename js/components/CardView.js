@@ -5,12 +5,13 @@
  */
 
 import React, { PureComponent } from "react";
-import { StyleSheet, View, TextInput, TouchableOpacity, KeyboardAvoidingView } from 'react-native'
+import { StyleSheet, View, TextInput, TouchableOpacity } from 'react-native'
 import Globals, { scale } from "../globals"
 import type { ItemImage, ItemText } from "../reducers/items";
 import ImageView from "./ImageView";
 import CardBottomBar from "./CardBottomBar";
 import CardTopBar from "./CardTopBar";
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 
 type Props = {
     itemText: ?ItemText,
@@ -76,10 +77,9 @@ export default class CardView extends PureComponent<Props> {
 
     render() {
         return (
-            <KeyboardAvoidingView
-                behavior={"padding"}
+            <KeyboardAwareScrollView
                 onTouchMove={()=> this._textInput && this._textInput.blur()}
-                style={styles.root}>
+                contentContainerStyle={styles.root}>
                 <CardTopBar/>
                 <View>
                     {this.renderImage()}
@@ -91,7 +91,7 @@ export default class CardView extends PureComponent<Props> {
                     }
                     this.makeTextEditable(true)
                 }}/>
-            </KeyboardAvoidingView>
+            </KeyboardAwareScrollView>
         )
     }
 
