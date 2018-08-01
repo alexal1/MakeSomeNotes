@@ -18,6 +18,7 @@ type Props = {
     itemImage: ?ItemImage,
     addItemText: () => void,
     deleteItem: (id: number) => void,
+    deleteCard: () => void,
     save: (itemTextId: number, newText: string) => {}
 }
 
@@ -91,7 +92,7 @@ export default class CardView extends PureComponent<Props> {
                     {this.renderImage()}
                     {this.renderText()}
                 </View>
-                <CardTopBar/>
+                <CardTopBar deleteCard={this.props.deleteCard}/>
             </KeyboardAwareScrollView>
         )
     }

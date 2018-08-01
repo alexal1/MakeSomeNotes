@@ -8,6 +8,7 @@ import type {
     Action,
     AddItemAction,
     CardCreateAction,
+    CardDeleteAction,
     ItemDeleteAction,
     ItemTextEditAction
 } from "../actions";
@@ -42,7 +43,7 @@ function removeByKey (myObj, deleteKey) {
 }
 
 function getNewId(state: ItemsState | CardsState): number {
-    return Math.max(...Object.keys(state).map(id => Number(id))) + 1
+    return Math.max(-1, ...Object.keys(state).map(id => Number(id))) + 1
 }
 
 const handlers = {
@@ -148,6 +149,20 @@ const handlers = {
                     )
                 }
             }
+        }
+    },
+
+    DELETE_CARD(state: State, action: CardDeleteAction): State {
+        const cardId = action.id;
+        const cardStack = state.cards[cardId.toString()].stack;
+        let newItemsState: ItemsState = state.items;
+        for (let stackItem of cardStack) {
+            newItemsState = removeByKey(newItemsState, stackItem.itemId.toString())
+        }
+        return {
+            ...state,
+            items: newItemsState,
+            cards: removeByKey(state.cards, cardId.toString())
         }
     }
 };

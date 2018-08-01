@@ -9,8 +9,11 @@ import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
 import { scale } from "../globals";
 import PopupDialog, { SlideAnimation } from 'react-native-popup-dialog';
 import Globals from "../globals";
+import { colorDarkGrey, colorWhite } from "../resources/colors";
 
-type Props = {}
+type Props = {
+    deleteCard: () => void
+}
 
 export default class CardTopBar extends PureComponent<Props> {
 
@@ -36,11 +39,18 @@ export default class CardTopBar extends PureComponent<Props> {
 
                 <PopupDialog
                     width={Globals.SCREEN_WIDTH - scale(16) * 2}
-                    dialogStyle={styles.dialogStyle}
+                    dialogStyle={styles.dialog}
                     dialogAnimation={this._slideAnimation}
+                    overlayOpacity={0.1}
                     ref={(component) => this._popupDialog = component}>
                     <View>
-                        <Text>Hello</Text>
+                        <TouchableOpacity onPress={() => {
+                            this.props.deleteCard();
+                            this._popupDialog.dismiss()}}>
+                            <Text style={styles.dialogButton}>
+                                Delete
+                            </Text>
+                        </TouchableOpacity>
                     </View>
                 </PopupDialog>
             </View>
@@ -65,7 +75,16 @@ const styles = StyleSheet.create({
         fontSize: 11,
         opacity: 0.4
     },
-    dialogStyle: {
-        // TODO: add some style
+    dialog: {
+        backgroundColor: colorDarkGrey,
+        alignItems: "stretch"
+    },
+    dialogButton: {
+        color: colorWhite,
+        fontSize: 16,
+        lineHeight: 24,
+        marginTop: scale(32),
+        marginLeft: scale(24),
+        marginRight: scale(24)
     }
 });

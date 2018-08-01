@@ -3,7 +3,7 @@
 import {
     ADD_ITEM_TO_CARD,
     CREATE_CARD_WITH_IMAGE,
-    CREATE_CARD_WITH_TEXT,
+    CREATE_CARD_WITH_TEXT, DELETE_CARD,
     DELETE_ITEM_FROM_CARD,
     EDIT_TEXT
 } from "./actionTypes";
@@ -42,8 +42,14 @@ export type CardCreateAction = {
     image?: string
 }
 
+export type CardDeleteAction = {
+    type: string,
+    id: number
+}
+
 export type CardAction =
-    | CardCreateAction;
+    | CardCreateAction
+    | CardDeleteAction;
 
 // Union action
 
@@ -87,5 +93,12 @@ export function deleteItemFromCard(id: number, cardId: number): ItemDeleteAction
         type: DELETE_ITEM_FROM_CARD,
         id,
         cardId
+    }
+}
+
+export function deleteCard(id: number): CardDeleteAction {
+    return {
+        type: DELETE_CARD,
+        id
     }
 }
