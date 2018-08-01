@@ -5,7 +5,7 @@
  */
 
 import { connect } from 'react-redux'
-import { addItemToCard, editText } from "../actions";
+import { addItemToCard, deleteItemFromCard, editText } from "../actions";
 import CardView from "../components/CardView";
 import { ITEM_IMAGE, ITEM_TEXT } from "../reducers/items";
 import type { Card } from "../reducers/cards";
@@ -15,10 +15,13 @@ function getFirstItem(itemType: string, card: Card, itemsState: ItemsState): ?It
     for (let value of card.stack) {
         if (value.itemType === itemType) {
             const id: string = value.itemId.toString();
-            return itemsState[id]
+            const result = itemsState[id];
+            if (!result)
+                throw "Cannot find " + itemType + " " + id + " for card " + card.id + "!";
+            else
+                return result
         }
     }
-    console.log("No " + itemType + " in Card #" + card.id);
     return null
 }
 
@@ -38,6 +41,7 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
         },
         ownProps.cardId
     )),
+    deleteItem: (id: number) => dispatch(deleteItemFromCard(id, ownProps.cardId)),
     save: (itemTextId: number, newText: string) => dispatch(editText(itemTextId, newText))
 });
 

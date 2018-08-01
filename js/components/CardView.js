@@ -17,6 +17,7 @@ type Props = {
     itemText: ?ItemText,
     itemImage: ?ItemImage,
     addItemText: () => void,
+    deleteItem: (id: number) => void,
     save: (itemTextId: number, newText: string) => {}
 }
 
@@ -93,6 +94,16 @@ export default class CardView extends PureComponent<Props> {
                 <CardTopBar/>
             </KeyboardAwareScrollView>
         )
+    }
+
+    componentDidMount() {
+        const itemText = this.props.itemText;
+        const itemImage = this.props.itemImage;
+
+        // Delete ItemText if it is empty and ItemImage exists
+        if (itemText != null && itemImage != null && itemText.text === "") {
+            this.props.deleteItem(itemText.id)
+        }
     }
 
     componentDidUpdate() {

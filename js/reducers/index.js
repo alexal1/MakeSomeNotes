@@ -4,7 +4,13 @@ import type { ItemsState, ItemText } from "./items";
 import { ITEM_IMAGE, ITEM_TEXT, itemsInitialState } from "./items";
 import type { CardsState } from "./cards";
 import { cardsInitialState } from "./cards";
-import type { Action, AddItemAction, CardCreateAction, ItemTextEditAction } from "../actions";
+import type {
+    Action,
+    AddItemAction,
+    CardCreateAction,
+    ItemDeleteAction,
+    ItemTextEditAction
+} from "../actions";
 
 // Global state
 
@@ -26,6 +32,19 @@ function createReducer(_initialState: State, _handlers: {}) {
     };
 }
 
+function removeByKey (myObj, deleteKey) {
+    return Object.keys(myObj)
+        .filter(key => key !== deleteKey)
+        .reduce((result, current) => {
+            result[current] = myObj[current];
+            return result;
+        }, {});
+}
+
+function getNewId(state: ItemsState | CardsState): number {
+    return Math.max(...Object.keys(state).map(id => Number(id))) + 1
+}
+
 const handlers = {
     EDIT_TEXT(state: State, action: ItemTextEditAction): State {
         return {
@@ -41,8 +60,8 @@ const handlers = {
     },
 
     CREATE_CARD_WITH_TEXT(state: State): State {
-        const itemTextId = Object.keys(state.items).length;
-        const cardId = Object.keys(state.cards).length;
+        const itemTextId = getNewId(state.items);
+        const cardId = getNewId(state.cards);
         return {
             ...state,
             items: {
@@ -63,8 +82,8 @@ const handlers = {
     },
 
     CREATE_CARD_WITH_IMAGE(state: State, action: CardCreateAction): State {
-        const itemImageId = Object.keys(state.items).length;
-        const cardId = Object.keys(state.cards).length;
+        const itemImageId = getNewId(state.items);
+        const cardId = getNewId(state.cards);
         return {
             ...state,
             items: {
@@ -85,7 +104,7 @@ const handlers = {
     },
 
     ADD_ITEM_TO_CARD(state: State, action: AddItemAction): State {
-        const itemId = Object.keys(state.items).length;
+        const itemId = getNewId(state.items);
         const cardId = action.cardId;
         const newStack = [
             ...state.cards[cardId.toString()].stack.slice(),
@@ -109,6 +128,24 @@ const handlers = {
                 [cardId.toString()]: {
                     ...state.cards[cardId.toString()],
                     stack: newStack
+                }
+            }
+        }
+    },
+
+    DELETE_ITEM_FROM_CARD(state: State, action: ItemDeleteAction): State {
+        const itemId = action.id;
+        const cardId = action.cardId;
+        return {
+            ...state,
+            items: removeByKey(state.items, itemId.toString()),
+            cards: {
+                ...state.cards,
+                [cardId.toString()]: {
+                    ...state.cards[cardId.toString()],
+                    stack: state.cards[cardId.toString()].stack.filter(
+                        cardStackItem => cardStackItem.itemId !== itemId
+                    )
                 }
             }
         }

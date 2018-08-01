@@ -4,6 +4,7 @@ import {
     ADD_ITEM_TO_CARD,
     CREATE_CARD_WITH_IMAGE,
     CREATE_CARD_WITH_TEXT,
+    DELETE_ITEM_FROM_CARD,
     EDIT_TEXT
 } from "./actionTypes";
 import type { Item } from "../reducers/items";
@@ -23,9 +24,16 @@ export type ItemTextEditAction = {
     newText: string
 }
 
+export type ItemDeleteAction = {
+    type: string,
+    id: number,
+    cardId: number
+}
+
 export type ItemAction =
     | AddItemAction
-    | ItemTextEditAction;
+    | ItemTextEditAction
+    | ItemDeleteAction;
 
 // Cards actions
 
@@ -70,6 +78,14 @@ export function addItemToCard(itemType: string, item: Item, cardId: number): Car
         type: ADD_ITEM_TO_CARD,
         itemType,
         item,
+        cardId
+    }
+}
+
+export function deleteItemFromCard(id: number, cardId: number): ItemDeleteAction {
+    return {
+        type: DELETE_ITEM_FROM_CARD,
+        id,
         cardId
     }
 }
