@@ -24,6 +24,7 @@ type Props = {
 
 export default class CardView extends PureComponent<Props> {
 
+    _cardTopBar: CardTopBar;
     _textInput: ?TextInput = null;
     _isTextInputEditable = false;
 
@@ -45,7 +46,8 @@ export default class CardView extends PureComponent<Props> {
             return (
                 <ImageView
                     style={styles.image}
-                    base64={this.props.itemImage.base64}/>
+                    base64={this.props.itemImage.base64}
+                    showImagePopup={() => this._cardTopBar.showImagePopup()}/>
             );
         else
             return null
@@ -92,7 +94,13 @@ export default class CardView extends PureComponent<Props> {
                     {this.renderImage()}
                     {this.renderText()}
                 </View>
-                <CardTopBar deleteCard={this.props.deleteCard}/>
+                <CardTopBar
+                    onRef={(component) => this._cardTopBar = component}
+                    deleteCard={this.props.deleteCard}
+                    deleteImage={() => {
+                        const itemImage = this.props.itemImage;
+                        itemImage && this.props.deleteItem(itemImage.id)
+                    }}/>
             </KeyboardAwareScrollView>
         )
     }
