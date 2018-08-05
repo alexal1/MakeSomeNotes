@@ -30,7 +30,7 @@ export default class ImageView extends PureComponent<Props> {
                 <TouchableOpacity
                     style={styles.popupButton}
                     onPress={this.props.showImagePopup}>
-                    <Image source={require('./img/ic_more_white.png')}/>
+                    <Image source={require('../resources/images/ic_more_white.png')}/>
                 </TouchableOpacity>
             </View>
         )

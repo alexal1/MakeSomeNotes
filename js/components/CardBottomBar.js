@@ -20,13 +20,13 @@ export default class CardBottomBar extends PureComponent<Props> {
                 <TouchableOpacity onPress={this.props.onAddImageClick}>
                     <Image
                         style={[styles.icon, styles.iconRight]}
-                        source={require('./img/ic_camera_24_black.png')}/>
+                        source={require('../resources/images/ic_camera_24_black.png')}/>
                 </TouchableOpacity>
 
                 <TouchableOpacity onPress={this.props.onEditTextClick}>
                     <Image
                         style={[styles.icon, styles.iconMiddle]}
-                        source={require('./img/ic_edit_black.png')}/>
+                        source={require('../resources/images/ic_edit_black.png')}/>
                 </TouchableOpacity>
             </View>
         )
