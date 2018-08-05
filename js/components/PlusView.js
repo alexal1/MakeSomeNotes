@@ -7,7 +7,7 @@
 import React, { PureComponent } from "react";
 import { StyleSheet, View, TouchableOpacity, Text } from 'react-native'
 import { colorBlue, colorLightGrey } from "../resources/colors";
-import Globals from "../globals";
+import Globals, { openImagePicker } from "../globals";
 import { scale } from "../globals"
 import ImageView from "./ImageView";
 
@@ -16,28 +16,6 @@ type Props = {
 }
 
 export default class PlusView extends PureComponent<Props> {
-
-    openImagePicker = () => {
-        const ImagePicker = require('react-native-image-picker');
-        const options = {
-            mediaType: 'photo',
-            allowsEditing: true,
-            quality: 1,
-            maxWidth: ImageView.obtainImageWidth(),
-            maxHeight: ImageView.obtainImageWidth()
-        };
-        ImagePicker.launchImageLibrary(options, (response)  => {
-            if (response.didCancel) {
-                console.log('User cancelled image picker');
-            }
-            else if (response.error) {
-                console.log('Image picker error: ', response.error);
-            }
-            else {
-                this.props.createCard(response.data)
-            }
-        });
-    };
 
     render() {
         return (
@@ -48,7 +26,11 @@ export default class PlusView extends PureComponent<Props> {
                             + Note
                         </Text>
                     </TouchableOpacity>
-                    <TouchableOpacity onPress={this.openImagePicker}>
+                    <TouchableOpacity onPress={() => {
+                        const imageWidth = ImageView.obtainImageWidth();
+                        const completion = (base64: string) => this.props.createCard(base64);
+                        openImagePicker(imageWidth, imageWidth, completion)
+                    }}>
                         <Text style={styles.text}>
                             + Image
                         </Text>

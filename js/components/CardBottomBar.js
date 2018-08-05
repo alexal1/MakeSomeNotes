@@ -5,32 +5,51 @@
  */
 
 import React, { PureComponent } from "react";
-import { StyleSheet, Text, TouchableOpacity } from 'react-native';
+import { Image, StyleSheet, TouchableOpacity, View } from 'react-native';
 import { scale } from "../globals";
 
 type Props = {
-    onEditTextClick: () => void
+    onEditTextClick: () => void,
+    onAddImageClick: () => void
 }
 
 export default class CardBottomBar extends PureComponent<Props> {
     render () {
         return (
-            <TouchableOpacity onPress={this.props.onEditTextClick}>
-                <Text style={styles.text}>
-                    Edit note
-                </Text>
-            </TouchableOpacity>
+            <View style={styles.root}>
+                <TouchableOpacity onPress={this.props.onAddImageClick}>
+                    <Image
+                        style={[styles.icon, styles.iconRight]}
+                        source={require('./img/ic_camera_24_black.png')}/>
+                </TouchableOpacity>
+
+                <TouchableOpacity onPress={this.props.onEditTextClick}>
+                    <Image
+                        style={[styles.icon, styles.iconMiddle]}
+                        source={require('./img/ic_edit_black.png')}/>
+                </TouchableOpacity>
+            </View>
         )
     }
 }
 
 const styles = StyleSheet.create({
-    text: {
-        marginLeft: scale(20),
-        marginBottom: scale(28),
-        fontSize: 14,
-        fontWeight: "500",
-        lineHeight: 16,
-        opacity: 0.4
+    root: {
+        flexDirection: "row-reverse",
+        marginLeft: scale(24),
+        marginRight: scale(24),
+        marginBottom: scale(20)
+    },
+    icon: {
+        opacity: 0.3,
+        marginBottom: scale(2)
+    },
+    iconMiddle: {
+        marginLeft: scale(6),
+        marginRight: scale(6)
+    },
+    iconRight: {
+        marginLeft: scale(6),
+        marginRight: scale(2)
     }
 });

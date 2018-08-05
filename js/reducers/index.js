@@ -1,6 +1,6 @@
 // @flow
 
-import type { ItemsState, ItemText } from "./items";
+import type { ItemsState } from "./items";
 import { ITEM_IMAGE, ITEM_TEXT, itemsInitialState } from "./items";
 import type { CardsState } from "./cards";
 import { cardsInitialState } from "./cards";
@@ -9,7 +9,7 @@ import type {
     AddItemAction,
     CardCreateAction,
     CardDeleteAction,
-    ItemDeleteAction,
+    ItemDeleteAction, ItemImageEditAction,
     ItemTextEditAction
 } from "../actions";
 
@@ -55,6 +55,19 @@ const handlers = {
                 [action.id.toString()]: {
                     id: action.id,
                     text: action.newText
+                }
+            }
+        }
+    },
+
+    EDIT_IMAGE(state: State, action: ItemImageEditAction): State {
+        return {
+            ...state,
+            items: {
+                ...state.items,
+                [action.id.toString()]: {
+                    id: action.id,
+                    base64: action.newBase64
                 }
             }
         }

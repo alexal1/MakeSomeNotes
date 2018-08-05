@@ -6,7 +6,7 @@
 
 import React, { PureComponent } from "react";
 import { StyleSheet, View, TextInput, TouchableOpacity } from 'react-native'
-import { scale } from "../globals"
+import { openImagePicker, scale } from "../globals"
 import type { ItemImage, ItemText } from "../reducers/items";
 import ImageView from "./ImageView";
 import CardBottomBar from "./CardBottomBar";
@@ -17,9 +17,11 @@ type Props = {
     itemText: ?ItemText,
     itemImage: ?ItemImage,
     addItemText: () => void,
+    addItemImage: (base64: string) => void,
     deleteItem: (id: number) => void,
     deleteCard: () => void,
-    save: (itemTextId: number, newText: string) => {}
+    updateItemText: (itemTextId: number, newText: string) => void,
+    updateItemImage: (itemImageId: number, newBase64: string) => void
 }
 
 export default class CardView extends PureComponent<Props> {
@@ -65,7 +67,7 @@ export default class CardView extends PureComponent<Props> {
                         editable={false}
                         multiline={true}
                         pointerEvents={'none'}
-                        onChangeText={(text) => this.props.save(id, text)}
+                        onChangeText={(text) => this.props.updateItemText(id, text)}
                         onBlur={() => this.makeTextEditable(false)}
                         placeholder={"Some note..."}
                         returnKeyType={"done"}
@@ -84,12 +86,25 @@ export default class CardView extends PureComponent<Props> {
             <KeyboardAwareScrollView
                 onTouchMove={()=> this._textInput && this._textInput.blur()}
                 contentContainerStyle={styles.root}>
-                <CardBottomBar onEditTextClick={() => {
-                    if (this.props.itemText == null) {
-                        this.props.addItemText();
-                    }
-                    this.makeTextEditable(true)
-                }}/>
+                <CardBottomBar
+                    onEditTextClick={() => {
+                        if (this.props.itemText == null) {
+                            this.props.addItemText();
+                        }
+                        this.makeTextEditable(true)
+                    }}
+                    onAddImageClick={() => {
+                        const imageWidth = ImageView.obtainImageWidth();
+                        if (this.props.itemImage == null) {
+                            const completion = (base64: string) => this.props.addItemImage(base64);
+                            openImagePicker(imageWidth, imageWidth, completion);
+                        }
+                        else {
+                            const itemImageId = this.props.itemImage.id;
+                            const completion = (base64: string) => this.props.updateItemImage(itemImageId, base64);
+                            openImagePicker(imageWidth, imageWidth, completion);
+                        }
+                    }}/>
                 <View>
                     {this.renderImage()}
                     {this.renderText()}

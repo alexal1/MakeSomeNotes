@@ -31,3 +31,25 @@ const verticalScale = (size: number) => height / guidelineBaseHeight * size;
 const moderateScale = (size: number, factor: number = 0.5) => size + (scale(size) - size) * factor;
 
 export {scale, verticalScale, moderateScale};
+
+export const openImagePicker = (maxWidth: number, maxHeight: number, completion: Function) => {
+    const ImagePicker = require('react-native-image-picker');
+    const options = {
+        mediaType: 'photo',
+        allowsEditing: true,
+        quality: 1,
+        maxWidth,
+        maxHeight
+    };
+    ImagePicker.launchImageLibrary(options, (response)  => {
+        if (response.didCancel) {
+            console.log('User cancelled image picker');
+        }
+        else if (response.error) {
+            console.log('Image picker error: ', response.error);
+        }
+        else {
+            completion(response.data)
+        }
+    });
+};

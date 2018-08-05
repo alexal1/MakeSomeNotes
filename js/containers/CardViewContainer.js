@@ -5,7 +5,7 @@
  */
 
 import { connect } from 'react-redux'
-import { addItemToCard, deleteCard, deleteItemFromCard, editText } from "../actions";
+import { addItemToCard, deleteCard, deleteItemFromCard, editImage, editText } from "../actions";
 import CardView from "../components/CardView";
 import { ITEM_IMAGE, ITEM_TEXT } from "../reducers/items";
 import type { Card } from "../reducers/cards";
@@ -41,9 +41,22 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
         },
         ownProps.cardId
     )),
+    addItemImage: (base64: string) => dispatch(addItemToCard(
+        ITEM_IMAGE,
+        {
+            id: -1,
+            base64
+        },
+        ownProps.cardId
+    )),
     deleteItem: (id: number) => dispatch(deleteItemFromCard(id, ownProps.cardId)),
     deleteCard: () => dispatch(deleteCard(ownProps.cardId)),
-    save: (itemTextId: number, newText: string) => dispatch(editText(itemTextId, newText))
+    updateItemText: (itemTextId: number, newText: string) => dispatch(
+        editText(itemTextId, newText)
+    ),
+    updateItemImage: (itemImageId: number, newBase64: string) => dispatch(
+        editImage(itemImageId, newBase64)
+    )
 });
 
 const CardViewContainer = connect(
