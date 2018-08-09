@@ -5,7 +5,7 @@ import {
     CREATE_CARD_WITH_IMAGE,
     CREATE_CARD_WITH_TEXT, DELETE_CARD,
     DELETE_ITEM_FROM_CARD, EDIT_IMAGE,
-    EDIT_TEXT
+    EDIT_TEXT, SET_CARD_COLOR
 } from "./actionTypes";
 import type { Item } from "../reducers/items";
 
@@ -54,9 +54,16 @@ export type CardDeleteAction = {
     id: number
 }
 
+export type CardColorAction = {
+    type: string,
+    cardId: number,
+    newColor: number
+}
+
 export type CardAction =
     | CardCreateAction
-    | CardDeleteAction;
+    | CardDeleteAction
+    | CardColorAction;
 
 // Union action
 
@@ -115,5 +122,13 @@ export function deleteCard(id: number): CardDeleteAction {
     return {
         type: DELETE_CARD,
         id
+    }
+}
+
+export function setCardColor(cardId: number, newColor: number): CardColorAction {
+    return {
+        type: SET_CARD_COLOR,
+        cardId,
+        newColor
     }
 }

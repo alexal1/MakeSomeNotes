@@ -12,25 +12,29 @@ import ImageView from "./ImageView";
 import CardBottomBar from "./CardBottomBar";
 import CardTopBar from "./CardTopBar";
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
+import { cardColors } from "../resources/colors";
 
 type Props = {
     itemText: ?ItemText,
     itemImage: ?ItemImage,
+    cardColorIndex: number,
     addItemText: () => void,
     addItemImage: (base64: string) => void,
     deleteItem: (id: number) => void,
     deleteCard: () => void,
     updateItemText: (itemTextId: number, newText: string) => void,
-    updateItemImage: (itemImageId: number, newBase64: string) => void
+    updateItemImage: (itemImageId: number, newBase64: string) => void,
+    setColor: (colorIndex: number) => void
 }
 
 export default class CardView extends PureComponent<Props> {
 
     _cardTopBar: CardTopBar;
+    _cardBottomBar: CardBottomBar;
     _textInput: ?TextInput = null;
     _isTextInputEditable = false;
 
-    makeTextEditable = (isEditable: boolean) => {
+    _makeTextEditable = (isEditable: boolean) => {
         this._isTextInputEditable = isEditable;
         let pointerEvents = isEditable ? 'auto' : 'none';
         this._textInput && this._textInput.setNativeProps({
@@ -43,7 +47,12 @@ export default class CardView extends PureComponent<Props> {
         }
     };
 
-    renderImage = () => {
+    _getStyleForBackground = () => {
+        const backgroundColor = cardColors[this.props.cardColorIndex];
+        return { backgroundColor }
+    };
+
+    _renderImage = () => {
         if (this.props.itemImage != null)
             return (
                 <ImageView
@@ -55,12 +64,12 @@ export default class CardView extends PureComponent<Props> {
             return null
     };
 
-    renderText = () => {
+    _renderText = () => {
         if (this.props.itemText != null) {
             const id = this.props.itemText.id;
             return (
                 <TouchableOpacity
-                    onLongPress={() => this.makeTextEditable(true)}>
+                    onLongPress={() => this._makeTextEditable(true)}>
                     <TextInput
                         ref={(component) => this._textInput = component}
                         style={styles.text}
@@ -68,7 +77,7 @@ export default class CardView extends PureComponent<Props> {
                         multiline={true}
                         pointerEvents={'none'}
                         onChangeText={(text) => this.props.updateItemText(id, text)}
-                        onBlur={() => this.makeTextEditable(false)}
+                        onBlur={() => this._makeTextEditable(false)}
                         placeholder={"Some note..."}
                         returnKeyType={"done"}
                         blurOnSubmit={true}>
@@ -84,14 +93,17 @@ export default class CardView extends PureComponent<Props> {
     render() {
         return (
             <KeyboardAwareScrollView
+                onTouchStart={() => this._cardBottomBar.hideColorChoice()}
                 onTouchMove={()=> this._textInput && this._textInput.blur()}
-                contentContainerStyle={styles.root}>
+                contentContainerStyle={[styles.root, this._getStyleForBackground()]}>
                 <CardBottomBar
+                    onRef={(component) => this._cardBottomBar = component}
+                    currentColorIndex={this.props.cardColorIndex}
                     onEditTextClick={() => {
                         if (this.props.itemText == null) {
                             this.props.addItemText();
                         }
-                        this.makeTextEditable(true)
+                        this._makeTextEditable(true)
                     }}
                     onAddImageClick={() => {
                         const imageWidth = ImageView.obtainImageWidth();
@@ -104,10 +116,11 @@ export default class CardView extends PureComponent<Props> {
                             const completion = (base64: string) => this.props.updateItemImage(itemImageId, base64);
                             openImagePicker(imageWidth, imageWidth, completion);
                         }
-                    }}/>
+                    }}
+                    onChooseColor={this.props.setColor}/>
                 <View>
-                    {this.renderImage()}
-                    {this.renderText()}
+                    {this._renderImage()}
+                    {this._renderText()}
                 </View>
                 <CardTopBar
                     onRef={(component) => this._cardTopBar = component}
@@ -131,7 +144,7 @@ export default class CardView extends PureComponent<Props> {
     }
 
     componentDidUpdate() {
-        this.makeTextEditable(this._isTextInputEditable)
+        this._makeTextEditable(this._isTextInputEditable)
     }
 }
 

@@ -6,7 +6,7 @@ import type { CardsState } from "./cards";
 import { cardsInitialState } from "./cards";
 import type {
     Action,
-    AddItemAction,
+    AddItemAction, CardColorAction,
     CardCreateAction,
     CardDeleteAction,
     ItemDeleteAction, ItemImageEditAction,
@@ -89,7 +89,8 @@ const handlers = {
                 ...state.cards,
                 [cardId.toString()]: {
                     id: cardId,
-                    stack: [{itemType: ITEM_TEXT, itemId: itemTextId}]
+                    stack: [{itemType: ITEM_TEXT, itemId: itemTextId}],
+                    color: 0
                 }
             }
         }
@@ -111,7 +112,8 @@ const handlers = {
                 ...state.cards,
                 [cardId.toString()]: {
                     id: cardId,
-                    stack: [{itemType: ITEM_IMAGE, itemId: itemImageId}]
+                    stack: [{itemType: ITEM_IMAGE, itemId: itemImageId}],
+                    color: 0
                 }
             }
         }
@@ -176,6 +178,20 @@ const handlers = {
             ...state,
             items: newItemsState,
             cards: removeByKey(state.cards, cardId.toString())
+        }
+    },
+
+    SET_CARD_COLOR(state: State, action: CardColorAction): State {
+        const cardId = action.cardId;
+        return {
+            ...state,
+            cards: {
+                ...state.cards,
+                [cardId.toString()]: {
+                    ...state.cards[cardId.toString()],
+                    color: action.newColor
+                }
+            }
         }
     }
 };

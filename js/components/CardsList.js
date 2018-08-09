@@ -61,6 +61,7 @@ export default class CardsList extends PureComponent<Props> {
                 horizontal={true}
                 sliderWidth={Globals.SCREEN_WIDTH}
                 itemWidth={Globals.SCREEN_WIDTH}
+                inactiveSlideScale={1.0}
             />
         )
     }
