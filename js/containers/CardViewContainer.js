@@ -40,7 +40,8 @@ const mapStateToProps = (state, ownProps) => {
     return {
         itemText,
         itemImage,
-        cardColorIndex: color
+        cardColorIndex: color,
+        finish: ownProps.finish
     }
 };
 

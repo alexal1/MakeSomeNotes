@@ -8,10 +8,11 @@ import { connect } from 'react-redux'
 import CardsList from "../components/CardsList";
 import { createCard } from "../actions";
 
-const mapStateToProps = (state) => {
+const mapStateToProps = (state, ownProps) => {
     const cardIds: number[] = Object.keys(state.cards);
     return {
-        cardIds: cardIds
+        cardIds: cardIds,
+        finish: ownProps.finish
     }
 };
 

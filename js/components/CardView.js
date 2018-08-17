@@ -13,6 +13,8 @@ import CardBottomBar from "./CardBottomBar";
 import CardTopBar from "./CardTopBar";
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import { cardColors } from "../resources/colors";
+import Globals from "../globals";
+import CardPopup from "./CardPopup";
 
 type Props = {
     itemText: ?ItemText,
@@ -24,13 +26,15 @@ type Props = {
     deleteCard: () => void,
     updateItemText: (itemTextId: number, newText: string) => void,
     updateItemImage: (itemImageId: number, newBase64: string) => void,
-    setColor: (colorIndex: number) => void
+    setColor: (colorIndex: number) => void,
+    finish: () => void
 }
 
 export default class CardView extends PureComponent<Props> {
 
     _cardTopBar: CardTopBar;
     _cardBottomBar: CardBottomBar;
+    _cardPopup: CardPopup;
     _textInput: ?TextInput = null;
     _isTextInputEditable = false;
 
@@ -58,7 +62,7 @@ export default class CardView extends PureComponent<Props> {
                 <ImageView
                     style={styles.image}
                     base64={this.props.itemImage.base64}
-                    showImagePopup={() => this._cardTopBar.showImagePopup()}/>
+                    showImagePopup={() => this._cardPopup.showImagePopup()}/>
             );
         else
             return null
@@ -92,44 +96,50 @@ export default class CardView extends PureComponent<Props> {
 
     render() {
         return (
-            <KeyboardAwareScrollView
-                onTouchStart={() => this._cardBottomBar.hideColorChoice()}
-                onTouchMove={()=> this._textInput && this._textInput.blur()}
-                contentContainerStyle={[styles.root, this._getStyleForBackground()]}>
-                <CardBottomBar
-                    onRef={(component) => this._cardBottomBar = component}
-                    currentColorIndex={this.props.cardColorIndex}
-                    onEditTextClick={() => {
-                        if (this.props.itemText == null) {
-                            this.props.addItemText();
-                        }
-                        this._makeTextEditable(true)
-                    }}
-                    onAddImageClick={() => {
-                        const imageWidth = ImageView.obtainImageWidth();
-                        if (this.props.itemImage == null) {
-                            const completion = (base64: string) => this.props.addItemImage(base64);
-                            openImagePicker(imageWidth, imageWidth, completion);
-                        }
-                        else {
-                            const itemImageId = this.props.itemImage.id;
-                            const completion = (base64: string) => this.props.updateItemImage(itemImageId, base64);
-                            openImagePicker(imageWidth, imageWidth, completion);
-                        }
-                    }}
-                    onChooseColor={this.props.setColor}/>
-                <View>
-                    {this._renderImage()}
-                    {this._renderText()}
-                </View>
-                <CardTopBar
-                    onRef={(component) => this._cardTopBar = component}
+            <View style={[styles.root, this._getStyleForBackground()]}>
+                <KeyboardAwareScrollView
+                    onTouchStart={() => this._cardBottomBar.hideColorChoice()}
+                    onTouchMove={()=> this._textInput && this._textInput.blur()}
+                    contentContainerStyle={styles.scrollView}>
+                    <CardBottomBar
+                        onRef={(component) => this._cardBottomBar = component}
+                        currentColorIndex={this.props.cardColorIndex}
+                        onEditTextClick={() => {
+                            if (this.props.itemText == null) {
+                                this.props.addItemText();
+                            }
+                            this._makeTextEditable(true)
+                        }}
+                        onAddImageClick={() => {
+                            const imageWidth = ImageView.obtainImageWidth();
+                            if (this.props.itemImage == null) {
+                                const completion = (base64: string) => this.props.addItemImage(base64);
+                                openImagePicker(imageWidth, imageWidth, completion);
+                            }
+                            else {
+                                const itemImageId = this.props.itemImage.id;
+                                const completion = (base64: string) => this.props.updateItemImage(itemImageId, base64);
+                                openImagePicker(imageWidth, imageWidth, completion);
+                            }
+                        }}
+                        onChooseColor={this.props.setColor}/>
+                    <View>
+                        {this._renderImage()}
+                        {this._renderText()}
+                    </View>
+                    <CardTopBar
+                        showCardPopup={() => this._cardPopup.showCardPopup()}
+                        finish={this.props.finish}/>
+                </KeyboardAwareScrollView>
+
+                <CardPopup
+                    onRef={(component) => this._cardPopup = component}
                     deleteCard={this.props.deleteCard}
                     deleteImage={() => {
                         const itemImage = this.props.itemImage;
                         itemImage && this.props.deleteItem(itemImage.id)
                     }}/>
-            </KeyboardAwareScrollView>
+            </View>
         )
     }
 
@@ -150,10 +160,14 @@ export default class CardView extends PureComponent<Props> {
 
 const styles = StyleSheet.create({
     root: {
+        flex: 1
+    },
+    scrollView: {
         flex: 1,
         flexDirection: 'column-reverse',
         justifyContent: 'space-between',
         alignItems: 'stretch',
+        marginBottom: Globals.STATUS_BAR_HEIGHT()
     },
     image: {
         // TODO: add some style

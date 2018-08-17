@@ -18,7 +18,8 @@ type CarouselItem = {
 
 type Props = {
     cardIds: number[],
-    createCard: (image: ?string) => void
+    createCard: (image: ?string) => void,
+    finish: () => void
 }
 
 export default class CardsList extends PureComponent<Props> {
@@ -44,7 +45,9 @@ export default class CardsList extends PureComponent<Props> {
     renderItem = (item: CarouselItem) => {
         switch (item.type) {
             case this.CAROUSEL_ITEM_CARD: {
-                return <CardViewContainer cardId={item.cardId}/>
+                return <CardViewContainer
+                    cardId={item.cardId}
+                    finish={this.props.finish}/>
             }
 
             case this.CAROUSEL_ITEM_PLUS: {
