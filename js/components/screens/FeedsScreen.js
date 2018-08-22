@@ -5,7 +5,7 @@
  */
 
 import React, { PureComponent } from "react";
-import { View, TouchableOpacity } from 'react-native'
+import ChatViewContainer from "../../containers/ChatViewContainer";
 import { Navigation } from 'react-native-navigation';
 
 type Props = {
@@ -24,18 +24,17 @@ export default class FeedsScreen extends PureComponent<Props> {
 
     render() {
         return (
-            <View style={{flex: 1, alignItems: "center", justifyContent: "center"}}>
-                <TouchableOpacity
-                    onPress={() => {
-                        Navigation.push(this.props.componentId, {
-                            component: {
-                                name: "msn.CardsScreen",
+            <ChatViewContainer
+                openCard={(cardId: number) => {
+                    Navigation.push(this.props.componentId, {
+                        component: {
+                            name: "msn.CardsScreen",
+                            passProps: {
+                                currentCardId: cardId
                             }
-                        })
-                    }}>
-                    <View style={{width: 100, height: 50, backgroundColor: 'grey'}}/>
-                </TouchableOpacity>
-            </View>
+                        }
+                    })
+                }}/>
         )
     }
 

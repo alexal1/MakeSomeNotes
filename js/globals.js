@@ -53,3 +53,5 @@ export const openImagePicker = (maxWidth: number, maxHeight: number, completion:
         }
     });
 };
+
+export const values = <T>(obj: { [string]: T }): Array<T> => Object.keys(obj).map(k => obj[k]);

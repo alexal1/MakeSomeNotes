@@ -1,6 +1,7 @@
 // @flow
 
 import { ITEM_TEXT } from "./items";
+import type { Item, ItemsState } from "./items";
 
 type CardStackItem = {
     itemType: string,
@@ -24,3 +25,17 @@ export const cardsInitialState: CardsState = {
     "3": {id: 3, stack: [{itemType: ITEM_TEXT, itemId: 3}], color: 3},
     "4": {id: 4, stack: [{itemType: ITEM_TEXT, itemId: 4}], color: 4},
 };
+
+export function getFirstItem(itemType: string, card: Card, itemsState: ItemsState): ?Item {
+    for (let value of card.stack) {
+        if (value.itemType === itemType) {
+            const id: string = value.itemId.toString();
+            const result = itemsState[id];
+            if (!result)
+                throw "Cannot find " + itemType + " " + id + " for card " + card.id + "!";
+            else
+                return result
+        }
+    }
+    return null
+}

@@ -5,7 +5,6 @@
 import { Navigation } from 'react-native-navigation';
 import type { Persistor } from 'redux-persist/src/types';
 import React, { PureComponent } from "react";
-import type { Node } from 'react';
 import { Provider } from "react-redux";
 import { PersistGate } from "redux-persist/integration/react";
 import FeedsScreen from "./FeedsScreen";

@@ -10,8 +10,13 @@ import { createCard } from "../actions";
 
 const mapStateToProps = (state, ownProps) => {
     const cardIds: number[] = Object.keys(state.cards);
+    const firstItem = cardIds.indexOf(ownProps.currentCardId.toString());
+    if (firstItem < 0) {
+        throw "Cannot find cardId " + ownProps.currentCardId
+    }
     return {
         cardIds: cardIds,
+        firstItem,
         finish: ownProps.finish
     }
 };

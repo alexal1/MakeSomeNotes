@@ -19,6 +19,7 @@ type CarouselItem = {
 type Props = {
     cardIds: number[],
     createCard: (image: ?string) => void,
+    firstItem: number,
     finish: () => void
 }
 
@@ -65,6 +66,7 @@ export default class CardsList extends PureComponent<Props> {
                 sliderWidth={Globals.SCREEN_WIDTH}
                 itemWidth={Globals.SCREEN_WIDTH}
                 inactiveSlideScale={1.0}
+                firstItem={this.props.firstItem}
             />
         )
     }

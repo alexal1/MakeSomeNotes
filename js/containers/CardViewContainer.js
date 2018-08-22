@@ -15,22 +15,7 @@ import {
 } from "../actions";
 import CardView from "../components/CardView";
 import { ITEM_IMAGE, ITEM_TEXT } from "../reducers/items";
-import type { Card } from "../reducers/cards";
-import type { ItemsState, Item } from "../reducers/items";
-
-function getFirstItem(itemType: string, card: Card, itemsState: ItemsState): ?Item {
-    for (let value of card.stack) {
-        if (value.itemType === itemType) {
-            const id: string = value.itemId.toString();
-            const result = itemsState[id];
-            if (!result)
-                throw "Cannot find " + itemType + " " + id + " for card " + card.id + "!";
-            else
-                return result
-        }
-    }
-    return null
-}
+import { getFirstItem } from "../reducers/cards";
 
 const mapStateToProps = (state, ownProps) => {
     const card = state.cards[ownProps.cardId];
