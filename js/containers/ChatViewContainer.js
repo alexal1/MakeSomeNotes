@@ -11,6 +11,7 @@ import { getFirstItem } from "../reducers/cards";
 import { ITEM_IMAGE, ITEM_TEXT } from "../reducers/items";
 import type { ItemImage, ItemsState, ItemText } from "../reducers/items";
 import { values } from "../globals"
+import { cardColors } from "../resources/colors";
 
 export type ChatMessage = {
     _id: number,
@@ -30,8 +31,13 @@ function _convertCardIntoMessage(card: Card, itemsState: ItemsState): ChatMessag
 }
 
 const mapStateToProps = (state, ownProps) => {
+    const colorByCardId: {[cardId: number]: string} = {};
+    values(state.cards).forEach((card) => {
+        colorByCardId[card.id] = cardColors[card.color]
+    });
     return {
         messages: values(state.cards).map((card) => _convertCardIntoMessage(card, state.items)),
+        colorByMessageId: colorByCardId,
         onMessageClick: (id: number) => {
             ownProps.openCard(id)
         }
