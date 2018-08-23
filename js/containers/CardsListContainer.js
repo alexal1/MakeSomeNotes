@@ -22,8 +22,8 @@ const mapStateToProps = (state, ownProps) => {
 };
 
 const mapDispatchToProps = (dispatch) => ({
-    createCard: (image: ?string) => {
-        dispatch(createCard(image))
+    createCard: (text: ?string, image: ?string) => {
+        dispatch(createCard(text, image))
     }
 });
 

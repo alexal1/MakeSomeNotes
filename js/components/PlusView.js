@@ -12,7 +12,7 @@ import { scale } from "../globals"
 import ImageView from "./ImageView";
 
 type Props = {
-    createCard: (image: ?string) => void
+    createCard: (text: ?string, image: ?string) => void
 }
 
 export default class PlusView extends PureComponent<Props> {
@@ -21,14 +21,14 @@ export default class PlusView extends PureComponent<Props> {
         return (
             <View style={styles.root}>
                 <View style={styles.belowStatusBar}>
-                    <TouchableOpacity onPress={() => this.props.createCard(null)}>
+                    <TouchableOpacity onPress={() => this.props.createCard("", null)}>
                         <Text style={styles.text}>
                             + Note
                         </Text>
                     </TouchableOpacity>
                     <TouchableOpacity onPress={() => {
                         const imageWidth = ImageView.obtainImageWidth();
-                        const completion = (base64: string) => this.props.createCard(base64);
+                        const completion = (base64: string) => this.props.createCard(null, base64);
                         openImagePicker(imageWidth, imageWidth, completion)
                     }}>
                         <Text style={styles.text}>

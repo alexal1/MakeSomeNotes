@@ -12,6 +12,7 @@ import { ITEM_IMAGE, ITEM_TEXT } from "../reducers/items";
 import type { ItemImage, ItemsState, ItemText } from "../reducers/items";
 import { values } from "../globals"
 import { cardColors } from "../resources/colors";
+import { createCard } from "../actions";
 
 export type ChatMessage = {
     _id: number,
@@ -44,7 +45,9 @@ const mapStateToProps = (state, ownProps) => {
     }
 };
 
-const mapDispatchToProps = (dispatch, ownProps) => ({});
+const mapDispatchToProps = (dispatch) => ({
+    onMessageSend: (text: ?string, image: ?string) => dispatch(createCard(text, image))
+});
 
 const ChatViewContainer = connect(
     mapStateToProps,

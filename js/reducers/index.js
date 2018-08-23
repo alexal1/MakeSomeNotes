@@ -73,7 +73,7 @@ const handlers = {
         }
     },
 
-    CREATE_CARD_WITH_TEXT(state: State): State {
+    CREATE_CARD_WITH_TEXT(state: State, action: CardCreateAction): State {
         const itemTextId = getNewId(state.items);
         const cardId = getNewId(state.cards);
         return {
@@ -82,7 +82,7 @@ const handlers = {
                 ...state.items,
                 [itemTextId.toString()]: {
                     id: itemTextId,
-                    text: ""
+                    text: action.text
                 }
             },
             cards: {
@@ -113,6 +113,37 @@ const handlers = {
                 [cardId.toString()]: {
                     id: cardId,
                     stack: [{itemType: ITEM_IMAGE, itemId: itemImageId}],
+                    color: 0
+                }
+            }
+        }
+    },
+
+    CREATE_CARD_WITH_TEXT_AND_IMAGE(state: State, action: CardCreateAction): State {
+        const itemTextId = getNewId(state.items);
+        const itemImageId = itemTextId + 1;
+        const cardId = getNewId(state.cards);
+        return {
+            ...state,
+            items: {
+                ...state.items,
+                [itemTextId.toString()]: {
+                    id: itemTextId,
+                    text: action.text
+                },
+                [itemImageId.toString()]: {
+                    id: itemImageId,
+                    base64: action.image
+                }
+            },
+            cards: {
+                ...state.cards,
+                [cardId.toString()]: {
+                    id: cardId,
+                    stack: [
+                        {itemType: ITEM_TEXT, itemId: itemTextId},
+                        {itemType: ITEM_IMAGE, itemId: itemImageId}
+                    ],
                     color: 0
                 }
             }

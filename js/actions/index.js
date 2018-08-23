@@ -3,7 +3,7 @@
 import {
     ADD_ITEM_TO_CARD,
     CREATE_CARD_WITH_IMAGE,
-    CREATE_CARD_WITH_TEXT, DELETE_CARD,
+    CREATE_CARD_WITH_TEXT, CREATE_CARD_WITH_TEXT_AND_IMAGE, DELETE_CARD,
     DELETE_ITEM_FROM_CARD, EDIT_IMAGE,
     EDIT_TEXT, SET_CARD_COLOR
 } from "./actionTypes";
@@ -46,6 +46,7 @@ export type ItemAction =
 
 export type CardCreateAction = {
     type: string,
+    text?: string,
     image?: string
 }
 
@@ -89,16 +90,29 @@ export function editImage(id: number, newBase64: string): ItemImageEditAction {
     }
 }
 
-export function createCard(image: ?string): CardCreateAction {
-    if (image == null)
+export function createCard(text: ?string, image: ?string): CardCreateAction {
+    if (text != null && image != null) {
         return {
-            type: CREATE_CARD_WITH_TEXT
+            type: CREATE_CARD_WITH_TEXT_AND_IMAGE,
+            text,
+            image
+        }
+    }
+    else if (text != null) {
+        return {
+            type: CREATE_CARD_WITH_TEXT,
+            text
         };
-    else
+    }
+    else if (image != null) {
         return {
             type: CREATE_CARD_WITH_IMAGE,
             image
         };
+    }
+    else {
+        throw "Attempt to create a card with no text and no image"
+    }
 }
 
 export function addItemToCard(itemType: string, item: Item, cardId: number): CardCreateAction {

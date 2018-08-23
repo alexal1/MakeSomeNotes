@@ -18,7 +18,7 @@ type CarouselItem = {
 
 type Props = {
     cardIds: number[],
-    createCard: (image: ?string) => void,
+    createCard: (text: ?string, image: ?string) => void,
     firstItem: number,
     finish: () => void
 }
