@@ -67,6 +67,7 @@ export default class CardsList extends PureComponent<Props> {
                 itemWidth={Globals.SCREEN_WIDTH}
                 inactiveSlideScale={1.0}
                 firstItem={this.props.firstItem}
+                loop={true}
             />
         )
     }

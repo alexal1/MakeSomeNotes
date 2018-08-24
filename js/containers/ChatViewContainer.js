@@ -32,12 +32,14 @@ function _convertCardIntoMessage(card: Card, itemsState: ItemsState): ChatMessag
 }
 
 const mapStateToProps = (state, ownProps) => {
+    const messages: ChatMessage[] = [];
     const colorByCardId: {[cardId: number]: string} = {};
     values(state.cards).forEach((card) => {
+        messages.unshift(_convertCardIntoMessage(card, state.items));
         colorByCardId[card.id] = cardColors[card.color]
     });
     return {
-        messages: values(state.cards).map((card) => _convertCardIntoMessage(card, state.items)),
+        messages,
         colorByMessageId: colorByCardId,
         onMessageClick: (id: number) => {
             ownProps.openCard(id)
