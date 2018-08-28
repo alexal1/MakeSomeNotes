@@ -6,11 +6,12 @@
 
 import React, { PureComponent } from "react";
 import { StyleSheet, View } from "react-native"
-import { Bubble, GiftedChat } from '@alexal1/react-native-gifted-chat'
+import { Bubble, Composer, GiftedChat } from '@alexal1/react-native-gifted-chat'
 import type { ChatMessage } from "../containers/ChatViewContainer";
 import { colorWhite } from "../resources/colors";
 import { openImagePicker } from "../globals";
 import ImageView from "./ImageView";
+import AttachedImageView from "./AttachedImageView";
 
 type Props = {
     messages: ChatMessage[],
@@ -31,7 +32,8 @@ export default class ChatView extends PureComponent<Props> {
                     onPressActionButton={() => {
                         const imageWidth = ImageView.obtainImageWidth();
                         const completion = (base64: string) => {
-                            this._pickedImage = base64
+                            this._pickedImage = base64;
+                            this.forceUpdate()
                         };
                         openImagePicker(imageWidth, imageWidth, completion)
                     }}
@@ -56,12 +58,34 @@ export default class ChatView extends PureComponent<Props> {
                             />
                         );
                     }}
+                    alwaysShowSend={this._pickedImage != null}
+                    accessoryHeight={this._pickedImage ? AttachedImageView.TOTAL_HEIGHT : 0}
+                    renderComposer={(props) => {
+                        return (
+                            <Composer
+                                {...props}
+                                placeholder={"Make Some Note..."} />
+                        )
+                    }}
+                    renderAccessory={this._pickedImage ? this._renderAccessory : null}
                     onSend={(messages) => {
                         const text = messages[0] ? messages[0].text : null;
                         const image = this._pickedImage;
+                        this._pickedImage = null;
                         this.props.onMessageSend(text, image)
                     }}/>
             </View>
+        )
+    }
+
+    _renderAccessory = () => {
+        return (
+            <AttachedImageView
+                image={this._pickedImage ? this._pickedImage : ""}
+                onImageDelete={() => {
+                    this._pickedImage = null;
+                    this.forceUpdate()
+                }}/>
         )
     }
 

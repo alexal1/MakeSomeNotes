@@ -7,7 +7,7 @@
     "test": "jest"
   },
   "dependencies": {
-    "@alexal1/react-native-gifted-chat": "0.4.3-alpha1",
+    "@alexal1/react-native-gifted-chat": "0.4.3-alpha3",
     "babel-cli": "^6.26.0",
     "babel-preset-flow": "^6.23.0",
     "flow-bin": "^0.77.0",
