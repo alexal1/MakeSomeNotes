@@ -5,11 +5,18 @@
  */
 
 import React, { PureComponent } from "react";
-import { StyleSheet, View } from "react-native"
-import { Bubble, Composer, GiftedChat } from '@alexal1/react-native-gifted-chat'
+import { StyleSheet, View, Image } from "react-native"
+import {
+    Actions,
+    Bubble,
+    Composer,
+    GiftedChat,
+    InputToolbar,
+    Send
+} from '@alexal1/react-native-gifted-chat'
 import type { ChatMessage } from "../containers/ChatViewContainer";
 import { colorWhite } from "../resources/colors";
-import { openImagePicker } from "../globals";
+import { openImagePicker, scale } from "../globals";
 import ImageView from "./ImageView";
 import AttachedImageView from "./AttachedImageView";
 
@@ -64,10 +71,45 @@ export default class ChatView extends PureComponent<Props> {
                         return (
                             <Composer
                                 {...props}
-                                placeholder={"Make Some Note..."} />
+                                textInputStyle={styles.textInputStyle}
+                                placeholder={"+ Make Some Note"} />
                         )
                     }}
                     renderAccessory={this._pickedImage ? this._renderAccessory : null}
+                    renderSend={(props) => {
+                        return (
+                            <Send
+                                {...props}
+                                containerStyle={styles.containerSend}>
+                                    <Image
+                                        style={styles.send}
+                                        source={require('../resources/images/ic_send.png')}/>
+                            </Send>
+                        )
+                    }}
+                    renderActions={(props) => {
+                        return (
+                            <Actions
+                                {...props}
+                                icon={() => {
+                                    return (
+                                        <Image
+                                            style={styles.actions}
+                                            source={require('../resources/images/ic_camera_24_black.png')}/>
+                                    )
+                                }}>
+                            </Actions>
+                        )
+                    }}
+                    renderInputToolbar={(props) => {
+                        return (
+                            <InputToolbar
+                                {...props}
+                                primaryStyle={styles.inputToolbarPrimaryStyle}
+                                containerStyle={styles.inputToolbarContainerStyle}
+                                />
+                        )
+                    }}
                     onSend={(messages) => {
                         const text = messages[0] ? messages[0].text : null;
                         const image = this._pickedImage;
@@ -95,5 +137,28 @@ const styles = StyleSheet.create({
     root: {
         flex: 1,
         backgroundColor: colorWhite
+    },
+    containerSend: {
+        justifyContent: 'center'
+    },
+    send: {
+        marginTop: scale(8),
+        marginRight: scale(8),
+        marginBottom: scale(8)
+    },
+    actions: {
+        opacity: 0.5
+    },
+    inputToolbarContainerStyle: {
+        borderTopWidth: 0
+    },
+    inputToolbarPrimaryStyle: {
+        backgroundColor: colorWhite,
+    },
+    textInputStyle: {
+        paddingLeft: 8,
+        borderRadius: 8,
+        backgroundColor: 'white',
+        marginRight: scale(8)
     }
 });
