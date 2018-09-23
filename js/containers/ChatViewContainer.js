@@ -34,10 +34,12 @@ function _convertCardIntoMessage(card: Card, itemsState: ItemsState): ChatMessag
 const mapStateToProps = (state, ownProps) => {
     const messages: ChatMessage[] = [];
     const colorByCardId: {[cardId: number]: string} = {};
-    values(state.cards).forEach((card) => {
-        messages.unshift(_convertCardIntoMessage(card, state.items));
-        colorByCardId[card.id] = cardColors[card.color]
-    });
+    values(state.cards)
+        .filter((card) => state.pages[ownProps.pageId].stack.includes(card.id))
+        .forEach((card) => {
+            messages.unshift(_convertCardIntoMessage(card, state.items));
+            colorByCardId[card.id] = cardColors[card.color]
+        });
     return {
         messages,
         colorByMessageId: colorByCardId,

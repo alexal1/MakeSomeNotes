@@ -5,8 +5,8 @@
  */
 
 import React, { PureComponent } from "react";
-import ChatViewContainer from "../../containers/ChatViewContainer";
 import { Navigation } from 'react-native-navigation';
+import ChatsListContainer from "../../containers/ChatsListContainer";
 
 type Props = {
     componentId: string
@@ -24,7 +24,7 @@ export default class FeedsScreen extends PureComponent<Props> {
 
     render() {
         return (
-            <ChatViewContainer
+            <ChatsListContainer
                 openCard={(cardId: number) => {
                     Navigation.push(this.props.componentId, {
                         component: {
@@ -34,7 +34,8 @@ export default class FeedsScreen extends PureComponent<Props> {
                             }
                         }
                     })
-                }}/>
+                }}
+            />
         )
     }
 

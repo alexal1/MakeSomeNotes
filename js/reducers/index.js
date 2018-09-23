@@ -8,21 +8,27 @@ import type {
     Action,
     AddItemAction, CardColorAction,
     CardCreateAction,
-    CardDeleteAction,
+    CardDeleteAction, CurrentPageAction,
     ItemDeleteAction, ItemImageEditAction,
     ItemTextEditAction
 } from "../actions";
+import { pagesInitialState } from "./pages";
+import type { PagesState } from "./pages";
 
 // Global state
 
 type State = {
     items: ItemsState,
-    cards: CardsState
+    cards: CardsState,
+    pages: PagesState,
+    currentPageId: number
 }
 
 const initialState: State = {
     items: itemsInitialState,
-    cards: cardsInitialState
+    cards: cardsInitialState,
+    pages: pagesInitialState,
+    currentPageId: 0
 };
 
 // Reducer
@@ -223,6 +229,14 @@ const handlers = {
                     color: action.newColor
                 }
             }
+        }
+    },
+
+    SET_CURRENT_PAGE(state: State, action: CurrentPageAction): State {
+        const pageId = action.pageId;
+        return {
+            ...state,
+            currentPageId: pageId
         }
     }
 };

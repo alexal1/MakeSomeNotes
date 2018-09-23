@@ -5,7 +5,7 @@ import {
     CREATE_CARD_WITH_IMAGE,
     CREATE_CARD_WITH_TEXT, CREATE_CARD_WITH_TEXT_AND_IMAGE, DELETE_CARD,
     DELETE_ITEM_FROM_CARD, EDIT_IMAGE,
-    EDIT_TEXT, SET_CARD_COLOR
+    EDIT_TEXT, SET_CARD_COLOR, SET_CURRENT_PAGE
 } from "./actionTypes";
 import type { Item } from "../reducers/items";
 
@@ -65,6 +65,13 @@ export type CardAction =
     | CardCreateAction
     | CardDeleteAction
     | CardColorAction;
+
+// Pages actions
+
+export type CurrentPageAction = {
+    type: string,
+    pageId: number
+}
 
 // Union action
 
@@ -144,5 +151,12 @@ export function setCardColor(cardId: number, newColor: number): CardColorAction 
         type: SET_CARD_COLOR,
         cardId,
         newColor
+    }
+}
+
+export function setCurrentPage(pageId: number): CurrentPageAction {
+    return {
+        type: SET_CURRENT_PAGE,
+        pageId
     }
 }
