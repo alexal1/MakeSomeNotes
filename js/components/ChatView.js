@@ -110,7 +110,7 @@ export default class ChatView extends PureComponent<Props> {
                     )
                 }}
                 onSend={(messages) => {
-                    const text = messages[0] ? messages[0].text : null;
+                    const text = messages[0] ? (messages[0].text ? messages[0].text : null) : null;
                     const image = this._pickedImage;
                     this._pickedImage = null;
                     this.props.onMessageSend(text, image)

@@ -48,7 +48,7 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
         ownProps.cardId
     )),
     deleteItem: (id: number) => dispatch(deleteItemFromCard(id, ownProps.cardId)),
-    deleteCard: () => dispatch(deleteCard(ownProps.cardId)),
+    deleteCard: () => dispatch(deleteCard(ownProps.cardId, ownProps.pageId)),
     updateItemText: (itemTextId: number, newText: string) => dispatch(
         editText(itemTextId, newText)
     ),

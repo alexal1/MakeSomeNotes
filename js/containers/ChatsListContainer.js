@@ -13,7 +13,7 @@ const mapStateToProps = (state, ownProps) => {
     return {
         pages: values(state.pages),
         pageId: state.currentPageId,
-        openCard: ownProps.openCard
+        openCard: (cardId: number) => ownProps.openCard(state.currentPageId, cardId)
     }
 };
 

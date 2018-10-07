@@ -10,6 +10,7 @@ import { Navigation } from 'react-native-navigation';
 
 type Props = {
     componentId: string,
+    pageId: number,
     currentCardId: number
 }
 
@@ -26,6 +27,7 @@ export default class CardsScreen extends PureComponent<Props> {
     render() {
         return (
             <CardsListContainer
+                pageId={this.props.pageId}
                 currentCardId={this.props.currentCardId}
                 finish={() => Navigation.pop(this.props.componentId)}/>
         )

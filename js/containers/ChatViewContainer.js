@@ -25,7 +25,7 @@ function _convertCardIntoMessage(card: Card, itemsState: ItemsState): ChatMessag
     const itemImage = ((getFirstItem(ITEM_IMAGE, card, itemsState): any): ?ItemImage);
     return {
         _id: card.id,
-        text: itemText ? itemText.text : "",
+        text: itemText ? (itemText.text ? itemText.text : "...") : "",
         image: itemImage ? 'data:image/jpeg;base64,' + itemImage.base64 : "",
         user: {}
     }
@@ -49,8 +49,8 @@ const mapStateToProps = (state, ownProps) => {
     }
 };
 
-const mapDispatchToProps = (dispatch) => ({
-    onMessageSend: (text: ?string, image: ?string) => dispatch(createCard(text, image))
+const mapDispatchToProps = (dispatch, ownProps) => ({
+    onMessageSend: (text: ?string, image: ?string) => dispatch(createCard(text, image, ownProps.pageId))
 });
 
 const ChatViewContainer = connect(

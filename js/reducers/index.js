@@ -82,6 +82,7 @@ const handlers = {
     CREATE_CARD_WITH_TEXT(state: State, action: CardCreateAction): State {
         const itemTextId = getNewId(state.items);
         const cardId = getNewId(state.cards);
+        const pageId = action.pageId;
         return {
             ...state,
             items: {
@@ -98,6 +99,13 @@ const handlers = {
                     stack: [{itemType: ITEM_TEXT, itemId: itemTextId}],
                     color: 0
                 }
+            },
+            pages: {
+                ...state.pages,
+                [pageId.toString()]: {
+                    ...state.pages[pageId.toString()],
+                    stack: [...state.pages[pageId.toString()].stack, cardId]
+                }
             }
         }
     },
@@ -105,6 +113,7 @@ const handlers = {
     CREATE_CARD_WITH_IMAGE(state: State, action: CardCreateAction): State {
         const itemImageId = getNewId(state.items);
         const cardId = getNewId(state.cards);
+        const pageId = action.pageId;
         return {
             ...state,
             items: {
@@ -121,6 +130,13 @@ const handlers = {
                     stack: [{itemType: ITEM_IMAGE, itemId: itemImageId}],
                     color: 0
                 }
+            },
+            pages: {
+                ...state.pages,
+                [pageId.toString()]: {
+                    ...state.pages[pageId.toString()],
+                    stack: [...state.pages[pageId.toString()].stack, cardId]
+                }
             }
         }
     },
@@ -129,6 +145,7 @@ const handlers = {
         const itemTextId = getNewId(state.items);
         const itemImageId = itemTextId + 1;
         const cardId = getNewId(state.cards);
+        const pageId = action.pageId;
         return {
             ...state,
             items: {
@@ -151,6 +168,13 @@ const handlers = {
                         {itemType: ITEM_IMAGE, itemId: itemImageId}
                     ],
                     color: 0
+                }
+            },
+            pages: {
+                ...state.pages,
+                [pageId.toString()]: {
+                    ...state.pages[pageId.toString()],
+                    stack: [...state.pages[pageId.toString()].stack, cardId]
                 }
             }
         }
@@ -207,6 +231,7 @@ const handlers = {
     DELETE_CARD(state: State, action: CardDeleteAction): State {
         const cardId = action.id;
         const cardStack = state.cards[cardId.toString()].stack;
+        const pageId = action.pageId;
         let newItemsState: ItemsState = state.items;
         for (let stackItem of cardStack) {
             newItemsState = removeByKey(newItemsState, stackItem.itemId.toString())
@@ -214,7 +239,14 @@ const handlers = {
         return {
             ...state,
             items: newItemsState,
-            cards: removeByKey(state.cards, cardId.toString())
+            cards: removeByKey(state.cards, cardId.toString()),
+            pages: {
+                ...state.pages,
+                [pageId.toString()]: {
+                    ...state.pages[pageId.toString()],
+                    stack: state.pages[pageId.toString()].stack.filter(id => id !== cardId)
+                }
+            }
         }
     },
 

@@ -9,21 +9,19 @@ import CardsList from "../components/CardsList";
 import { createCard } from "../actions";
 
 const mapStateToProps = (state, ownProps) => {
-    const cardIds: number[] = Object.keys(state.cards);
-    const firstItem = cardIds.indexOf(ownProps.currentCardId.toString());
-    if (firstItem < 0) {
-        throw "Cannot find cardId " + ownProps.currentCardId
-    }
+    const cardIds: number[] = state.pages[ownProps.pageId.toString()].stack;
+    const firstItem = cardIds.indexOf(ownProps.currentCardId);
     return {
         cardIds: cardIds,
-        firstItem,
-        finish: ownProps.finish
+        firstItem: firstItem >= 0 ? firstItem : null,
+        finish: ownProps.finish,
+        pageId: ownProps.pageId
     }
 };
 
-const mapDispatchToProps = (dispatch) => ({
+const mapDispatchToProps = (dispatch, ownProps) => ({
     createCard: (text: ?string, image: ?string) => {
-        dispatch(createCard(text, image))
+        dispatch(createCard(text, image, ownProps.pageId))
     }
 });
 

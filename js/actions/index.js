@@ -47,12 +47,14 @@ export type ItemAction =
 export type CardCreateAction = {
     type: string,
     text?: string,
-    image?: string
+    image?: string,
+    pageId: number
 }
 
 export type CardDeleteAction = {
     type: string,
-    id: number
+    id: number,
+    pageId: number
 }
 
 export type CardColorAction = {
@@ -97,24 +99,27 @@ export function editImage(id: number, newBase64: string): ItemImageEditAction {
     }
 }
 
-export function createCard(text: ?string, image: ?string): CardCreateAction {
+export function createCard(text: ?string, image: ?string, pageId: number): CardCreateAction {
     if (text != null && image != null) {
         return {
             type: CREATE_CARD_WITH_TEXT_AND_IMAGE,
             text,
-            image
+            image,
+            pageId
         }
     }
     else if (text != null) {
         return {
             type: CREATE_CARD_WITH_TEXT,
-            text
+            text,
+            pageId
         };
     }
     else if (image != null) {
         return {
             type: CREATE_CARD_WITH_IMAGE,
-            image
+            image,
+            pageId
         };
     }
     else {
@@ -122,7 +127,7 @@ export function createCard(text: ?string, image: ?string): CardCreateAction {
     }
 }
 
-export function addItemToCard(itemType: string, item: Item, cardId: number): CardCreateAction {
+export function addItemToCard(itemType: string, item: Item, cardId: number): AddItemAction {
     return {
         type: ADD_ITEM_TO_CARD,
         itemType,
@@ -139,10 +144,11 @@ export function deleteItemFromCard(id: number, cardId: number): ItemDeleteAction
     }
 }
 
-export function deleteCard(id: number): CardDeleteAction {
+export function deleteCard(id: number, pageId: number): CardDeleteAction {
     return {
         type: DELETE_CARD,
-        id
+        id,
+        pageId
     }
 }
 

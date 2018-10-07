@@ -25,11 +25,12 @@ export default class FeedsScreen extends PureComponent<Props> {
     render() {
         return (
             <ChatsListContainer
-                openCard={(cardId: number) => {
+                openCard={(pageId: number, cardId: number) => {
                     Navigation.push(this.props.componentId, {
                         component: {
                             name: "msn.CardsScreen",
                             passProps: {
+                                pageId,
                                 currentCardId: cardId
                             }
                         }
