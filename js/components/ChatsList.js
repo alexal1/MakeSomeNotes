@@ -26,9 +26,6 @@ type Props = {
 
 export default class ChatsList extends PureComponent<Props> {
 
-    _header: Text;
-    _currentTitle: string;
-
     _renderItem = (item: CarouselItem) => {
         return (
             <ChatViewContainer
@@ -73,6 +70,7 @@ export default class ChatsList extends PureComponent<Props> {
                         const page = values(this.props.pages)[snapIndex];
                         this.props.setCurrentPage(page.id)
                     }}
+                    keyboardShouldPersistTaps={'handled'}
                 />
             </View>
         )
