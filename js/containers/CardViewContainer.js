@@ -23,6 +23,7 @@ const mapStateToProps = (state, ownProps) => {
     const itemImage = getFirstItem(ITEM_IMAGE, card, state.items);
     const color = card.color;
     return {
+        pageTitle: state.pages[ownProps.pageId].title,
         itemText,
         itemImage,
         cardColorIndex: color,

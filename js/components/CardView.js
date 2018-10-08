@@ -17,6 +17,7 @@ import Globals from "../globals";
 import CardPopup from "./CardPopup";
 
 type Props = {
+    pageTitle: string,
     itemText: ?ItemText,
     itemImage: ?ItemImage,
     cardColorIndex: number,
@@ -32,7 +33,6 @@ type Props = {
 
 export default class CardView extends PureComponent<Props> {
 
-    _cardTopBar: CardTopBar;
     _cardBottomBar: CardBottomBar;
     _cardPopup: CardPopup;
     _textInput: ?TextInput = null;
@@ -128,6 +128,7 @@ export default class CardView extends PureComponent<Props> {
                         {this._renderText()}
                     </View>
                     <CardTopBar
+                        pageTitle={this.props.pageTitle}
                         showCardPopup={() => this._cardPopup.showCardPopup()}
                         finish={this.props.finish}/>
                 </KeyboardAwareScrollView>

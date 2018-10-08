@@ -9,6 +9,7 @@ import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
 import { scale } from "../globals";
 
 type Props = {
+    pageTitle: string,
     showCardPopup: () => void,
     finish: () => void
 }
@@ -20,7 +21,7 @@ export default class CardTopBar extends PureComponent<Props> {
             <View style={styles.bar}>
                 <TouchableOpacity onPress={this.props.finish}>
                     <Text style={styles.text}>
-                        Notes
+                        {this.props.pageTitle}
                     </Text>
                 </TouchableOpacity>
                 <TouchableOpacity onPress={this.props.showCardPopup}>
