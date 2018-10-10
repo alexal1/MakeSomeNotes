@@ -21,7 +21,8 @@ type Props = {
     createCard: (text: ?string, image: ?string) => void,
     firstItem: number,
     finish: () => void,
-    pageId: number
+    pageId: number,
+    pageTitle: string
 }
 
 export default class CardsList extends PureComponent<Props> {
@@ -54,7 +55,10 @@ export default class CardsList extends PureComponent<Props> {
             }
 
             case this.CAROUSEL_ITEM_PLUS: {
-                return <PlusView createCard={this.props.createCard}/>
+                return <PlusView
+                    createCard={this.props.createCard}
+                    pageTitle={this.props.pageTitle}
+                    finish={this.props.finish}/>
             }
         }
     };

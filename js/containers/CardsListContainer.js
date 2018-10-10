@@ -15,7 +15,8 @@ const mapStateToProps = (state, ownProps) => {
         cardIds: cardIds,
         firstItem: firstItem >= 0 ? firstItem : null,
         finish: ownProps.finish,
-        pageId: ownProps.pageId
+        pageId: ownProps.pageId,
+        pageTitle: state.pages[ownProps.pageId.toString()].title
     }
 };
 

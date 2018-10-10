@@ -12,7 +12,9 @@ import { scale } from "../globals"
 import ImageView from "./ImageView";
 
 type Props = {
-    createCard: (text: ?string, image: ?string) => void
+    createCard: (text: ?string, image: ?string) => void,
+    pageTitle: string,
+    finish: () => void
 }
 
 export default class PlusView extends PureComponent<Props> {
@@ -36,6 +38,13 @@ export default class PlusView extends PureComponent<Props> {
                         </Text>
                     </TouchableOpacity>
                 </View>
+                <TouchableOpacity
+                    style={styles.topBarTextTouchable}
+                    onPress={this.props.finish}>
+                    <Text style={styles.topBarText}>
+                        {this.props.pageTitle}
+                    </Text>
+                </TouchableOpacity>
             </View>
         )
     }
@@ -51,6 +60,16 @@ const styles = StyleSheet.create({
         alignItems: 'flex-start',
         justifyContent: 'center',
         marginTop: Globals.STATUS_BAR_HEIGHT()
+    },
+    topBarTextTouchable: {
+        position: 'absolute',
+        marginTop: Globals.STATUS_BAR_HEIGHT() + scale(26),
+        marginLeft: scale(24)
+    },
+    topBarText: {
+        fontSize: 13,
+        lineHeight: 20,
+        opacity: 0.4
     },
     text: {
         marginLeft: scale(27),
